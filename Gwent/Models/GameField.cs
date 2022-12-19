@@ -8,6 +8,13 @@ public class GameField
     public bool IsRoundFinished => HasPassed == 2;
     public bool IsGameFinished => Players.Item1.Lives == 0 || Players.Item2.Lives == 0;
 
+    public void ClearFieldForNextRound()
+    {
+        Players.Item1.OwnField[0] = new Row(Role.Melee);
+        Players.Item1.OwnField[1] = new Row(Role.Shooter);
+        Players.Item2.OwnField[0] = new Row(Role.Melee);
+        Players.Item2.OwnField[1] = new Row(Role.Shooter);
+    }
     public GameResult Result
     {
         get
