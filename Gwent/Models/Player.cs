@@ -1,11 +1,26 @@
 ﻿using Models.Dtos;
+using Models.FeaturesRepo;
 
 namespace Models;
 
 public class Player
 {
-    public Player(string name)
+    public Player(string name, Game game, int deckId):this(name, game)
     {
+        Hand = new List<Card>();
+        Deck = new Deck(DecksLibrary.Decks[deckId], true);
+        for(var i =0;i<10;i++)
+            PullCard();
+    }
+
+    public Player(string name, Game game, int[] hand):this(name, game)
+    {
+        Hand = hand.Select(CardLibrary.GetCard).ToList();
+    }
+    
+    public Player(string name, Game game)
+    {
+        GameField = game;
         Name = name;
         OwnField = new List<Row> {new(Role.Melee), new(Role.Shooter)};
     }
@@ -46,10 +61,15 @@ public class Player
 
     public void PullCard(MoveResult result)
     {
+        PullCard();
+        result.PulledCards.Add(Hand[^1].Id);
+    }
+
+    public void PullCard()
+    {
         if (Deck.Cards.Count == 0) return;
         var card = Deck.Cards[0];
         Hand.Add(card);
         Deck.Cards.Remove(card);
-        result.PulledCards.Add(card.Id);
     }
 }

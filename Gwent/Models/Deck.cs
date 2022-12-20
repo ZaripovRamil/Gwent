@@ -1,4 +1,6 @@
-﻿namespace Models;
+﻿using Models.FeaturesRepo;
+
+namespace Models;
 
 public class Deck
 {

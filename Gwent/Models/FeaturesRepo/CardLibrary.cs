@@ -1,4 +1,4 @@
-﻿namespace Models;
+﻿namespace Models.FeaturesRepo;
 
 public static class CardLibrary
 {
