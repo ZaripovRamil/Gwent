@@ -2,7 +2,7 @@
 
 namespace Models;
 
-public class GameField
+public class Game//TODO Start game here
 {
     public int HasPassed { get; set; }
     public (Player, Player) Players;

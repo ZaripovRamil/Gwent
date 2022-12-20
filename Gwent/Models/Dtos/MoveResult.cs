@@ -8,6 +8,7 @@ public class MoveResult
         CardPositionInHand = cardPositionInHand;
         Row = row;
         CardPositionInRow = cardPositionInRow;
+        PulledCards = new List<int>();
     }
 
     public MoveResult(Player player, bool hasPassed)
@@ -16,12 +17,11 @@ public class MoveResult
         HasPassed = hasPassed;
         PulledCards = new List<int>();
     }
-    
+
     public string PlayerName { get; set; }
     public bool HasPassed { get; set; }
     public int CardPositionInHand { get; set; }
     public int Row { get; set; }
     public int CardPositionInRow { get; set; }
-
     public List<int> PulledCards { get; set; }
 }

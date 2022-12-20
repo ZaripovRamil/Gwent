@@ -23,5 +23,10 @@ public class Card
             return ForeignImpacts.Aggregate(BasePower, (current, impact) => impact.Impact(current));
         }
     }
+
+    public Card GetCopy()
+    {
+        return new Card(Id, Role, BasePower, OwnImpact);
+    }
 }
 

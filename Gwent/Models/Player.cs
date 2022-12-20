@@ -17,11 +17,11 @@ public class Player
         get { return OwnField.Sum(row => row.Power); }
     }
 
-    public GameField FullField { get; set; }
+    public Game GameField { get; set; }
     public List<Row> OwnField { get; }
     public string Name { get; set; }
     public List<Card> Hand { get; set; }
-    public List<Card> Deck { get; set; }
+    public Deck Deck { get; set; }
 
     public MoveResult PlayCard(int positionInHand, int rowIndex, int positionInRow)
     {
@@ -34,7 +34,7 @@ public class Player
         var result = new MoveResult(this, positionInHand, rowIndex, positionInRow);
         rowCards.Insert(positionInRow, card);
         if(card.OwnImpact.TriggerType == TriggerType.OnPlay)
-            card.OwnImpact.Impact(FullField, this, result);
+            card.OwnImpact.Impact(GameField, this, result);
         return result;
     }
 
@@ -46,10 +46,10 @@ public class Player
 
     public void PullCard(MoveResult result)
     {
-        if (Deck.Count == 0) return;
-        var card = Deck[0];
+        if (Deck.Cards.Count == 0) return;
+        var card = Deck.Cards[0];
         Hand.Add(card);
-        Deck.Remove(card);
+        Deck.Cards.Remove(card);
         result.PulledCards.Add(card.Id);
     }
 }
