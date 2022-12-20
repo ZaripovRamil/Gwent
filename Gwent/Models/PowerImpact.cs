@@ -1,6 +1,4 @@
-﻿using Models.MoveResults;
-
-namespace Models;
+﻿namespace Models;
 
 public abstract class PowerImpact
 {

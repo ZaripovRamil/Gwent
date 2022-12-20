@@ -1,4 +1,6 @@
-﻿namespace Models;
+﻿using Models.Dtos;
+
+namespace Models;
 
 public class GameField
 {
@@ -14,6 +16,12 @@ public class GameField
         Players.Item1.OwnField[1] = new Row(Role.Shooter);
         Players.Item2.OwnField[0] = new Row(Role.Melee);
         Players.Item2.OwnField[1] = new Row(Role.Shooter);
+    }
+
+    public MoveResult ExecuteMove(PlayerMove move)
+    {
+        if (move.HasPassed) return CurrentlyMoving.Pass();
+        return CurrentlyMoving.PlayCard(move.CardPositionInHand, move.Row, move.CardPositionInRow);
     }
     public GameResult Result
     {

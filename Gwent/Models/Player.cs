@@ -1,4 +1,4 @@
-﻿using Models.MoveResults;
+﻿using Models.Dtos;
 
 namespace Models;
 
@@ -25,15 +25,14 @@ public class Player
 
     public MoveResult PlayCard(int positionInHand, int rowIndex, int positionInRow)
     {
-        var result = new MoveResult(this);
         if (positionInHand >= Hand.Count || positionInHand < 0) throw new IndexOutOfRangeException("No card in hand");
         var card = Hand[positionInHand];
         if (rowIndex != (int) card.Role) throw new ArgumentException("Wrong row");
         var rowCards = OwnField[rowIndex].Cards;
         if (positionInRow > rowCards.Count || positionInRow < 0)
             throw new IndexOutOfRangeException("Wrong position in a row");
+        var result = new MoveResult(this, positionInHand, rowIndex, positionInRow);
         rowCards.Insert(positionInRow, card);
-        result.Actions.Add(new CardPlayed(card, positionInRow));
         if(card.OwnImpact.TriggerType == TriggerType.OnPlay)
             card.OwnImpact.Impact(FullField, this, result);
         return result;
@@ -41,8 +40,7 @@ public class Player
 
     public MoveResult Pass()
     {
-        var result = new MoveResult(this);
-        result.Actions.Add(new PassHappened());
+        var result = new MoveResult(this, true);
         return result;
     }
 
@@ -52,6 +50,6 @@ public class Player
         var card = Deck[0];
         Hand.Add(card);
         Deck.Remove(card);
-        result.Actions.Add(new CardPulled());
+        result.PulledCards.Add(card.Id);
     }
 }
