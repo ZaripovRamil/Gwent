@@ -38,7 +38,7 @@ public class Game //TODO Start game here
     {
         var res = new Dictionary<int, GameStartResponse>();
         res.Add(0, new GameStartResponse(Players[0].Name, Players[1].Name, 
-            0, Players[1].Hand.Select(card=>card.Id).ToArray()));
+            0, Players[0].Hand.Select(card=>card.Id).ToArray()));
         res.Add(1, new GameStartResponse(Players[0].Name, Players[1].Name, 
             1, Players[1].Hand.Select(card=>card.Id).ToArray()));
         return res;
