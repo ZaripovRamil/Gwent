@@ -5,6 +5,7 @@ namespace Models;
 
 public class Player
 {
+    //this constructor for server
     public Player(string name, Game game, int deckId):this(name, game)
     {
         Hand = new List<Card>();
@@ -12,17 +13,18 @@ public class Player
         for(var i =0;i<10;i++)
             PullCard();
     }
-
+    //this constructor for client
     public Player(string name, Game game, int[] hand):this(name, game)
     {
         Hand = hand.Select(CardLibrary.GetCard).ToList();
     }
-    
+    //basic constructor
     public Player(string name, Game game)
     {
         GameField = game;
         Name = name;
-        OwnField = new List<Row> {new(Role.Melee), new(Role.Shooter)};
+        Lives = 2;
+        OwnField = SetupField();
     }
 
     public int Lives { get; set; }
@@ -31,9 +33,9 @@ public class Player
     {
         get { return OwnField.Sum(row => row.Power); }
     }
-
+    public bool HasPassed { get; set; }
     public Game GameField { get; set; }
-    public List<Row> OwnField { get; }
+    public List<Row> OwnField { get; set; }
     public string Name { get; set; }
     public List<Card> Hand { get; set; }
     public Deck Deck { get; set; }
@@ -56,6 +58,7 @@ public class Player
     public MoveResult Pass()
     {
         var result = new MoveResult(this, true);
+        HasPassed = true;
         return result;
     }
 
@@ -72,4 +75,7 @@ public class Player
         Hand.Add(card);
         Deck.Cards.Remove(card);
     }
+
+    public static List<Row> SetupField() => new() {new Row(Role.Melee), new Row(Role.Shooter)};
+    
 }

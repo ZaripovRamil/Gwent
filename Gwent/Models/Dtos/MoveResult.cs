@@ -4,6 +4,7 @@ public class MoveResult
 {
     public MoveResult(Player player, int cardPositionInHand, int row, int cardPositionInRow)
     {
+        HasPassed = false;
         PlayerName = player.Name;
         CardPositionInHand = cardPositionInHand;
         Row = row;
@@ -24,4 +25,5 @@ public class MoveResult
     public int Row { get; set; }
     public int CardPositionInRow { get; set; }
     public List<int> PulledCards { get; set; }
+    public bool IsLastMoveInRound { get; set; }
 }
