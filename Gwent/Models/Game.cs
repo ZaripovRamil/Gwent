@@ -102,17 +102,14 @@ public class Game //TODO Start game here
         return result;
     }
 
-    public GameResult CalculateGameResult
+    public GameResult CalculateGameResult()
     {
-        get
+        if (!IsGameFinished) throw new Exception("Game result unknown yet");
+        return Players[0].Lives switch
         {
-            if (!IsGameFinished) throw new Exception("Game result unknown yet");
-            return Players[0].Lives switch
-            {
-                0 when Players[1].Lives == 0 => new GameResult(true, null),
-                0 => new GameResult(false, Players[1].Name),
-                _ => new GameResult(false, Players[0].Name)
-            };
-        }
+            0 when Players[1].Lives == 0 => new GameResult(true, null),
+            0 => new GameResult(false, Players[1].Name),
+            _ => new GameResult(false, Players[0].Name)
+        };
     }
 }
