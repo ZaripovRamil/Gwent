@@ -2,9 +2,9 @@
 
 public class DecksLibrary
 {
-    public static Dictionary<int, int[]> Decks { get; }
+    public static List<int[]> Decks { get; }
         = new()
         {
-            {1, new[] {1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2}}
+            new[] {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 5, 6, 6}
         };
 }

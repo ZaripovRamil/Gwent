@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Protocol;
 
 namespace XProtocol
 {
@@ -184,7 +185,7 @@ namespace XProtocol
             // Записываем поля
             foreach (var field in fields)
             {
-                packet.Write(new[] {field.FieldID, field.FieldSize}, 0, 2);
+                packet.Write(new byte[] {field.FieldID, field.FieldSize}, 0, 2);
                 packet.Write(field.Contents, 0, field.Contents.Length);
             }
 

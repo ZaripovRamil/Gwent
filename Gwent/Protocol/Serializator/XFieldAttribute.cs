@@ -1,14 +1,11 @@
-﻿using System;
+﻿namespace Protocol.Serializator;
 
-namespace XProtocol.Serializator
+public class XFieldAttribute : Attribute
 {
-    public class XFieldAttribute : Attribute
-    {
-        public byte FieldID { get; }
+    public byte FieldID { get; }
 
-        public XFieldAttribute(byte fieldId)
-        {
-            FieldID = fieldId;
-        }
+    public XFieldAttribute(byte fieldId)
+    {
+        FieldID = fieldId;
     }
 }

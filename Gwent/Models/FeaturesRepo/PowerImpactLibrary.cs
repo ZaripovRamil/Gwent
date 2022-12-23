@@ -2,6 +2,8 @@
 
 public class PowerImpactLibrary
 {
-    public static Dictionary<int, PowerImpact> PowerImpacts = new();
-    //TODO fill dictionary
+    public static readonly List<PowerImpact> PowerImpacts = new()
+    {
+        new PowerImpact(n=>n+1, "Buff +1")
+    };
 }

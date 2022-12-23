@@ -1,4 +1,5 @@
-﻿using XProtocol.Serializator;
+﻿using Protocol.Serializator;
+using XProtocol.Serializator;
 
 namespace XProtocol
 {

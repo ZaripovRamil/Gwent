@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
-namespace XProtocol
+namespace Protocol
 {
     public static class RijndaelHandler
     {

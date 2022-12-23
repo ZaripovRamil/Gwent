@@ -7,8 +7,7 @@ namespace Server;
 public class Server
 {
     private readonly Socket _socket;
-    private readonly List<ConnectedClient> _clients;
-    private List<GameRunner> _games;
+    private readonly List<GameRunner> _games;
     private Dictionary<ConnectedClient, GameRunner> ClientGameDictionary { get; set; }
     private Dictionary<string, ConnectedClient> NameClientDictionary { get; set; }
 
@@ -21,7 +20,6 @@ public class Server
         var ipAddress = ipHostInfo.AddressList[0];
         _games = new List<GameRunner>();
         _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        _clients = new List<ConnectedClient>();
         ClientGameDictionary = new Dictionary<ConnectedClient, GameRunner>();
         NameClientDictionary = new Dictionary<string, ConnectedClient>();
     }
@@ -69,7 +67,6 @@ public class Server
             Console.WriteLine($"[!] Accepted client from {(IPEndPoint) client.RemoteEndPoint!}");
 
             var c = new ConnectedClient(client, this);
-            _clients.Add(c);
         }
     }
 
@@ -91,9 +88,15 @@ public class Server
         }
     }
 
-    public void SendStartResponce(string playerName, GameStartResponse startResponce)
+    public void SendStartResponse(string playerName, GameStartResponse startResponse)
     {
         var client = NameClientDictionary[playerName];
-        client.SendStartResponse(startResponce);
+        client.SendStartResponse(startResponse);
+    }
+
+    public void SendMoveResult(string playerName, MoveResult moveResult)
+    {
+        var client = NameClientDictionary[playerName];
+        client.SendMoveResult(moveResult);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace XProtocol
+﻿using Protocol;
+
+namespace XProtocol
 {
     public class XProtocolEncryptor
     {

@@ -1,8 +1,8 @@
 ﻿namespace Models;
 
-public abstract class PowerImpact
+public class PowerImpact
 {
-    protected PowerImpact(Func<int, int> impact, string name)
+    public PowerImpact(Func<int, int> impact, string name)
     {
         Impact = impact;
         Name = name;

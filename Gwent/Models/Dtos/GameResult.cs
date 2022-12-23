@@ -1,4 +1,4 @@
-﻿using XProtocol.Serializator;
+﻿using Protocol.Serializator;
 
 namespace Models.Dtos;
 

@@ -10,7 +10,7 @@ public class ConnectedClient
     public Socket Client { get; }
 
     private readonly Queue<byte[]> _packetSendingQueue = new();
-    private GameRunner GameRunner { get; set; }
+    private GameRunner? GameRunner { get; set; }
     public Server Server { get; }
 
     public ConnectedClient(Socket client, Server server)
@@ -99,8 +99,13 @@ public class ConnectedClient
         }
     }
 
-    public void SendStartResponse(GameStartResponse startResponce)
+    public void SendStartResponse(GameStartResponse startResponse)
     {
-        QueuePacketSend(XPacketType.GameResponse, startResponce);
+        QueuePacketSend(XPacketType.GameResponse, startResponse);
+    }
+
+    public void SendMoveResult(MoveResult moveResult)
+    {
+        QueuePacketSend(XPacketType.GameResponse, moveResult);
     }
 }

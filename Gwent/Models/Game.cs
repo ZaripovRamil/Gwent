@@ -52,18 +52,31 @@ public class Game //TODO Start game here
     public void SetupNextRound()
     {
         foreach (var player in Players)
+        {
+            player.HasPassed = false;
             player.OwnField = Player.SetupField();
+        }
+            
     }
 
-    public MoveResult ExecuteMove(PlayerMove move)
+    public List<MoveResult> ExecuteMove(PlayerMove move)
     {
+        var results = new List<MoveResult>(){null, null};
         if (CurrentlyMoving.Name != move.PlayerName) return null;
         var moveResult = move.HasPassed
             ? CurrentlyMoving.Pass()
             : CurrentlyMoving.PlayCard(move.CardPositionInHand, move.Row, move.CardPositionInRow);
         if (IsRoundFinished) moveResult.IsLastMoveInRound = true;
         else CurrentlyMoving = CalculateNextMovingPlayer();
-        return moveResult;
+        for(var i = 0;i<Players.Length;i++)
+        {
+            if (Players[i].Name != moveResult.PlayerName) continue;
+            results[i] = moveResult;
+            moveResult.PulledCards = null;
+            results[(i+1)%2] = moveResult;
+        }
+
+        return results;
     }
 
     private Player CalculateNextMovingPlayer()
