@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:views="clr-namespace:GwentClient.Views"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="GwentClient.Views.GameFieldView">
+
+	<Panel>
+		<Image Stretch="Fill" Source="/Assets/Background.jpg"/>
+		<DockPanel>
+			<Panel DockPanel.Dock="Left" Width="250">
+				<Panel Height="200" Margin="0 0 0 150" Background="Blue" VerticalAlignment="Bottom">
+
+				</Panel>
+
+				<Panel Height="200" Margin="0 150 0 0" Background="Blue" VerticalAlignment="Top">
+
+				</Panel>
+			</Panel>
+
+			<Panel DockPanel.Dock="Right" Width="250">
+
+			</Panel>
+
+			<Panel>
+				<DockPanel Margin="100 0">
+					<Panel Height="150" DockPanel.Dock="Bottom">
+						<ItemsControl Items="{Binding Hand}">
+
+						</ItemsControl>
+					</Panel>
+
+					<Grid RowDefinitions="*, *, *, *">
+						<Panel Grid.Row="0">
+							<Border Classes="row"/>
+							<Image Margin="30" Source="/Assets/Shooter.png"/>
+							<ItemsControl Items="{Binding EnemyShooter}">
+
+							</ItemsControl>
+						</Panel>
+
+						<Panel Grid.Row="1">
+							<Border Classes="row"/>
+							<Image Margin="30" Source="/Assets/Melee.png"/>
+							<ItemsControl Items="{Binding EnemyMelee}">
+
+							</ItemsControl>
+						</Panel>
+
+						<Panel Grid.Row="2">
+							<Border Classes="row"/>
+							<Image Margin="30" Source="/Assets/Melee.png"/>
+							<ItemsControl Items="{Binding PlayerMelee}">
+
+							</ItemsControl>
+						</Panel>
+
+						<views:RowView Grid.Row="3"/>
+						
+						
+					</Grid>
+
+				</DockPanel>
+			</Panel>
+
+		</DockPanel>
+	</Panel>
+</UserControl>

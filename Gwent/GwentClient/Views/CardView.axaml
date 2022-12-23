@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="GwentClient.Views.CardView">
+	
+	<Panel Background="AliceBlue" Width="100" Height="150">
+		<Image Stretch="Fill" Source="{Binding CardImage}"></Image>
+		<Panel Margin="-20" Width="50" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Image Source="/Assets/PowerFrame.png"/>
+			<TextBlock Text="{Binding CurrentPower}"
+					   FontSize="12" 
+					   Foreground="White"
+					   HorizontalAlignment="Center"
+					   VerticalAlignment="Center"/>
+		</Panel>
+		<Panel Margin="-20" Width="50" VerticalAlignment="Top" HorizontalAlignment="Right">
+			<Image Source="/Assets/PowerFrame.png"/>
+			<Image Source="{Binding RoleImage}" Width="18"/>
+		</Panel>
+		<TextBlock Text="{Binding Name}"
+				   Margin="10"
+				   VerticalAlignment="Bottom"
+				   HorizontalAlignment="Center"
+				   Foreground="White"/>
+	</Panel>
+</UserControl>
