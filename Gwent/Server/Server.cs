@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
+using Models.Dtos;
 
 namespace Server;
 
@@ -7,6 +8,9 @@ public class Server
 {
     private readonly Socket _socket;
     private readonly List<ConnectedClient> _clients;
+    private List<GameRunner> _games;
+    private Dictionary<ConnectedClient, GameRunner> ClientGameDictionary { get; set; }
+    private Dictionary<string, ConnectedClient> NameClientDictionary { get; set; }
 
     private bool _listening;
     private bool _stopListening;
@@ -15,9 +19,11 @@ public class Server
     {
         var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());  
         var ipAddress = ipHostInfo.AddressList[0];
-
+        _games = new List<GameRunner>();
         _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         _clients = new List<ConnectedClient>();
+        ClientGameDictionary = new Dictionary<ConnectedClient, GameRunner>();
+        NameClientDictionary = new Dictionary<string, ConnectedClient>();
     }
 
     public void Start()
@@ -29,7 +35,6 @@ public class Server
 
         _socket.Bind(new IPEndPoint(IPAddress.Any, 4910));
         _socket.Listen(10);
-
         _listening = true;
     }
 
@@ -63,8 +68,32 @@ public class Server
 
             Console.WriteLine($"[!] Accepted client from {(IPEndPoint) client.RemoteEndPoint!}");
 
-            var c = new ConnectedClient(client);
+            var c = new ConnectedClient(client, this);
             _clients.Add(c);
         }
+    }
+
+    public GameRunner AddClientIntoGame(ConnectedClient client,string name)
+    {
+        NameClientDictionary[name] = client;
+        LastGame.AddClient(name);
+        ClientGameDictionary[client] = LastGame;
+        return LastGame;
+    }
+
+    public GameRunner LastGame
+    {
+        get
+        {
+            if(_games.Count == 0||_games[^1].IsFilled)
+                _games.Add(new GameRunner(this));
+            return _games[^1];
+        }
+    }
+
+    public void SendStartResponce(string playerName, GameStartResponse startResponce)
+    {
+        var client = NameClientDictionary[playerName];
+        client.SendStartResponse(startResponce);
     }
 }

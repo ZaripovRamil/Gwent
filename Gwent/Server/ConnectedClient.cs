@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using Models.Dtos;
 using XProtocol;
 using XProtocol.Serializator;
 
@@ -8,12 +9,14 @@ public class ConnectedClient
 {
     public Socket Client { get; }
 
-    private readonly Queue<byte[]> _packetSendingQueue = new Queue<byte[]>();
+    private readonly Queue<byte[]> _packetSendingQueue = new();
+    private GameRunner GameRunner { get; set; }
+    public Server Server { get; }
 
-    public ConnectedClient(Socket client)
+    public ConnectedClient(Socket client, Server server)
     {
         Client = client;
-
+        Server = server;
         Task.Run(ProcessIncomingPackets);
         Task.Run(SendPackets);
     }
@@ -22,7 +25,7 @@ public class ConnectedClient
     {
         while (true) // Слушаем пакеты, пока клиент не отключится.
         {
-            var buff = new byte[256]; // Максимальный размер пакета - 256 байт.
+            var buff = new byte[1024]; // Максимальный размер пакета - 256 байт.
             Client.Receive(buff);
 
             buff = buff.TakeWhile((b, i) =>
@@ -51,6 +54,13 @@ public class ConnectedClient
                 break;
             case XPacketType.Unknown:
                 break;
+            case XPacketType.GameRequest:
+                var name = XPacketConverter.Deserialize<GameStartRequest>(packet).PlayerName;
+                GameRunner = Server.AddClientIntoGame(this, name);
+                break;
+            case XPacketType.GameResponse:
+                GameRunner.MovesQueue.Enqueue(XPacketConverter.Deserialize<PlayerMove>(packet));
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -59,24 +69,19 @@ public class ConnectedClient
     private void ProcessHandshake(XPacket packet)
     {
         Console.WriteLine("Recieved handshake packet.");
-
         var handshake = XPacketConverter.Deserialize<XPacketHandshake>(packet);
         handshake.MagicHandshakeNumber -= 15;
-
         Console.WriteLine("Answering..");
-
         QueuePacketSend(XPacketConverter.Serialize(XPacketType.Handshake, handshake).ToPacket());
     }
 
     public void QueuePacketSend(byte[] packet)
     {
-        if (packet.Length > 256)
-        {
-            throw new Exception("Max packet size is 256 bytes.");
-        }
-
         _packetSendingQueue.Enqueue(packet);
     }
+
+    public void QueuePacketSend(XPacketType type, object obj) => 
+        QueuePacketSend(XPacketConverter.Serialize(type,obj).ToPacket());
 
     private void SendPackets()
     {
@@ -90,8 +95,12 @@ public class ConnectedClient
 
             var packet = _packetSendingQueue.Dequeue();
             Client.Send(packet);
-
             Thread.Sleep(100);
         }
+    }
+
+    public void SendStartResponse(GameStartResponse startResponce)
+    {
+        QueuePacketSend(XPacketType.GameResponse, startResponce);
     }
 }

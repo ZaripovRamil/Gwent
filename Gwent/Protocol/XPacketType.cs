@@ -5,7 +5,7 @@
         Unknown,
         Handshake,
         GameRequest,
-        GameResponce,
+        GameResponse,
         PlayerMove,
         MoveResult
     }

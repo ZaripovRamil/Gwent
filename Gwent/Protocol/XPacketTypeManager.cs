@@ -12,7 +12,7 @@ namespace XProtocol
         {
             RegisterType(XPacketType.Handshake, 1, 0);
             RegisterType(XPacketType.GameRequest,2,0);
-            RegisterType(XPacketType.GameResponce,3,0);
+            RegisterType(XPacketType.GameResponse,3,0);
             RegisterType(XPacketType.MoveResult,4,0);
             RegisterType(XPacketType.PlayerMove,5,0);
         }
