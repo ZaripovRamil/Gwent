@@ -7,20 +7,20 @@ namespace Server;
 public class Server
 {
     private readonly Socket _socket;
+    private readonly List<ConnectedClient> _clients;
     private readonly List<GameRunner> _games;
-    private Dictionary<ConnectedClient, GameRunner> ClientGameDictionary { get; set; }
-    private Dictionary<string, ConnectedClient> NameClientDictionary { get; set; }
+    private Dictionary<string, ConnectedClient> NameClientDictionary { get; }
 
     private bool _listening;
     private bool _stopListening;
 
     public Server()
     {
-        var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());  
+        var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
         var ipAddress = ipHostInfo.AddressList[0];
         _games = new List<GameRunner>();
+        _clients = new List<ConnectedClient>();
         _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        ClientGameDictionary = new Dictionary<ConnectedClient, GameRunner>();
         NameClientDictionary = new Dictionary<string, ConnectedClient>();
     }
 
@@ -62,19 +62,21 @@ public class Server
             try
             {
                 client = _socket.Accept();
-            } catch { return; }
+            }
+            catch
+            {
+                return;
+            }
 
             Console.WriteLine($"[!] Accepted client from {(IPEndPoint) client.RemoteEndPoint!}");
-
-            var c = new ConnectedClient(client, this);
+            _clients.Add(new ConnectedClient(client, this));
         }
     }
 
-    public GameRunner AddClientIntoGame(ConnectedClient client,string name)
+    public GameRunner AddClientIntoGame(ConnectedClient client, string name)
     {
         NameClientDictionary[name] = client;
         LastGame.AddClient(name);
-        ClientGameDictionary[client] = LastGame;
         return LastGame;
     }
 
@@ -82,7 +84,7 @@ public class Server
     {
         get
         {
-            if(_games.Count == 0||_games[^1].IsFilled)
+            if (_games.Count == 0 || _games[^1].IsFilled)
                 _games.Add(new GameRunner(this));
             return _games[^1];
         }

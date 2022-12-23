@@ -2,5 +2,6 @@
 
 public enum Role
 {
-    Melee = 0, Shooter = 1
+    Melee = 0,
+    Shooter = 1
 }

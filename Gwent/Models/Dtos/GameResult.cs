@@ -9,8 +9,7 @@ public class GameResult
         IsDraw = isDraw;
         WinnerName = winnerName;
     }
-    [XField(1)]
-    public bool IsDraw { get; set; }
-    [XField(2)]
-    public string? WinnerName { get; set; }
+
+    [XField(1)] public bool IsDraw { get; }
+    [XField(2)] public string? WinnerName { get; }
 }

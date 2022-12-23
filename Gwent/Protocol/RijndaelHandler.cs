@@ -7,6 +7,7 @@ namespace Protocol
         private const int Keysize = 256;
         private const int DerivationIterations = 1000;
 
+        [Obsolete("Obsolete")]
         public static byte[] Encrypt(byte[] data, string passPhrase)
         { 
             var saltStringBytes = Generate256BitsOfRandomEntropy();
@@ -41,6 +42,7 @@ namespace Protocol
             }
         }
 
+        [Obsolete("Obsolete")]
         public static byte[] Decrypt(byte[] data, string passPhrase)
         {
             var saltStringBytes = data.Take(Keysize / 8).ToArray();
@@ -73,6 +75,7 @@ namespace Protocol
             }
         }
 
+        [Obsolete("Obsolete")]
         private static byte[] Generate256BitsOfRandomEntropy()
         {
             var randomBytes = new byte[32];

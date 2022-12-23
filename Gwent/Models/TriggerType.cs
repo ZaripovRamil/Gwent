@@ -2,5 +2,6 @@
 
 public enum TriggerType
 {
-    OnPlay, OnStartOfMove
+    OnPlay,
+    OnStartOfMove
 }

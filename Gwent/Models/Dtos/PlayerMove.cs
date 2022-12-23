@@ -12,14 +12,10 @@ public class PlayerMove
         Row = row;
         CardPositionInRow = cardPositionInRow;
     }
-    [XField(1)]
-    public string PlayerName { get; }
-    [XField(2)]
-    public bool HasPassed { get; }
-    [XField(3)]
-    public int CardPositionInHand { get; }
-    [XField(4)]
-    public int Row { get; }
-    [XField(5)]
-    public int CardPositionInRow { get; }
+
+    [XField(1)] public string PlayerName { get; }
+    [XField(2)] public bool HasPassed { get; }
+    [XField(3)] public int CardPositionInHand { get; }
+    [XField(4)] public int Row { get; }
+    [XField(5)] public int CardPositionInRow { get; }
 }

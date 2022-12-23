@@ -8,6 +8,6 @@ public class GameStartRequest
     {
         PlayerName = playerName;
     }
-    [XField(1)]
-    public string PlayerName { get; set; }
+
+    [XField(1)] public string PlayerName { get; }
 }

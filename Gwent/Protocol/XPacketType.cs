@@ -1,4 +1,4 @@
-﻿namespace XProtocol
+﻿namespace Protocol
 {
     public enum XPacketType
     {

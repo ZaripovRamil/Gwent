@@ -1,50 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Protocol;
 
-namespace XProtocol
+public static class XPacketTypeManager
 {
-    public static class XPacketTypeManager
+    private static readonly Dictionary<XPacketType, Tuple<byte, byte>> TypeDictionary =
+        new Dictionary<XPacketType, Tuple<byte, byte>>();
+
+    static XPacketTypeManager()
     {
-        private static readonly Dictionary<XPacketType, Tuple<byte, byte>> TypeDictionary =
-            new Dictionary<XPacketType, Tuple<byte, byte>>();
+        RegisterType(XPacketType.Handshake, 1, 0);
+        RegisterType(XPacketType.GameRequest,2,0);
+        RegisterType(XPacketType.GameResponse,3,0);
+        RegisterType(XPacketType.MoveResult,4,0);
+        RegisterType(XPacketType.PlayerMove,5,0);
+    }
 
-        static XPacketTypeManager()
+    public static void RegisterType(XPacketType type, byte btype, byte bsubtype)
+    {
+        if (TypeDictionary.ContainsKey(type))
         {
-            RegisterType(XPacketType.Handshake, 1, 0);
-            RegisterType(XPacketType.GameRequest,2,0);
-            RegisterType(XPacketType.GameResponse,3,0);
-            RegisterType(XPacketType.MoveResult,4,0);
-            RegisterType(XPacketType.PlayerMove,5,0);
+            throw new Exception($"Packet type {type:G} is already registered.");
         }
 
-        public static void RegisterType(XPacketType type, byte btype, byte bsubtype)
-        {
-            if (TypeDictionary.ContainsKey(type))
-            {
-                throw new Exception($"Packet type {type:G} is already registered.");
-            }
+        TypeDictionary.Add(type, Tuple.Create(btype, bsubtype));
+    }
 
-            TypeDictionary.Add(type, Tuple.Create(btype, bsubtype));
+    public static Tuple<byte, byte> GetType(XPacketType type)
+    {
+        if (!TypeDictionary.ContainsKey(type))
+        {
+            throw new Exception($"Packet type {type:G} is not registered.");
         }
 
-        public static Tuple<byte, byte> GetType(XPacketType type)
-        {
-            if (!TypeDictionary.ContainsKey(type))
-            {
-                throw new Exception($"Packet type {type:G} is not registered.");
-            }
+        return TypeDictionary[type];
+    }
 
-            return TypeDictionary[type];
-        }
-
-        public static XPacketType GetTypeFromPacket(XPacket packet)
-        {
-            var type = packet.PacketType;
-            var subtype = packet.PacketSubtype;
-            foreach (var tuple in TypeDictionary)
-                if (tuple.Value.Item1 == type && tuple.Value.Item2 == subtype)
-                    return tuple.Key;
-            return XPacketType.Unknown;
-        }
+    public static XPacketType GetTypeFromPacket(XPacket packet)
+    {
+        var type = packet.PacketType;
+        var subtype = packet.PacketSubtype;
+        foreach (var tuple in TypeDictionary)
+            if (tuple.Value.Item1 == type && tuple.Value.Item2 == subtype)
+                return tuple.Key;
+        return XPacketType.Unknown;
     }
 }

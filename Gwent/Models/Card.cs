@@ -13,15 +13,13 @@ public class Card
     public int Id { get; }
     public Role Role { get; }
     private int BasePower { get; }
-    
+
     public GameImpact OwnImpact { get; }
     public List<PowerImpact> ForeignImpacts { get; } = new();
+
     public int ResultPower
     {
-        get
-        {
-            return ForeignImpacts.Aggregate(BasePower, (current, impact) => impact.Impact(current));
-        }
+        get { return ForeignImpacts.Aggregate(BasePower, (current, impact) => impact.Impact(current)); }
     }
 
     public Card GetCopy()
@@ -29,4 +27,3 @@ public class Card
         return new Card(Id, Role, BasePower, OwnImpact);
     }
 }
-

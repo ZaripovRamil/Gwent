@@ -12,12 +12,13 @@ public class GameRunner
     public bool IsFilled => Game is not null;
 
     internal Queue<PlayerMove> MovesQueue { get; }
+
     public GameRunner(Server server)
     {
         Server = server;
         MovesQueue = new Queue<PlayerMove>();
     }
-    
+
     public void AddClient(string name)
     {
         if (Player1Name is null)
@@ -26,7 +27,7 @@ public class GameRunner
         {
             Player2Name = name;
             Game = new Game(Player1Name, Player2Name);
-            Parallel.Invoke(StartGame);
+            Task.Run(StartGame);
         }
         else throw new Exception("Can't add client into a filled lobby");
     }
@@ -36,7 +37,7 @@ public class GameRunner
         if (Game is null || Player1Name is null || Player2Name is null)
             throw new Exception("GameRunner didn't run correctly");
         var startResponses = Game.ProvideGameStartResponses();
-        Server.SendStartResponse(Player1Name,startResponses[0]);
+        Server.SendStartResponse(Player1Name, startResponses[0]);
         Server.SendStartResponse(Player2Name, startResponses[1]);
         while (!Game.IsGameFinished)
         {

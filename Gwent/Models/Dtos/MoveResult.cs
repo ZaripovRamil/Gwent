@@ -20,18 +20,12 @@ public class MoveResult
         HasPassed = hasPassed;
         PulledCards = new List<int>();
     }
-    [XField(1)]
-    public string PlayerName { get; set; }
-    [XField(2)]
-    public bool HasPassed { get; set; }
-    [XField(3)]
-    public int CardPositionInHand { get; set; }
-    [XField(4)]
-    public int Row { get; set; }
-    [XField(5)]
-    public int CardPositionInRow { get; set; }
-    [XField(6)]
-    public List<int> PulledCards { get; set; }
-    [XField(7)]
-    public bool IsLastMoveInRound { get; set; }
+
+    [XField(1)] public string PlayerName { get; }
+    [XField(2)] public bool HasPassed { get; }
+    [XField(3)] public int CardPositionInHand { get; }
+    [XField(4)] public int Row { get; }
+    [XField(5)] public int CardPositionInRow { get; }
+    [XField(6)] public List<int> PulledCards { get; set; }
+    [XField(7)] public bool IsLastMoveInRound { get; set; }
 }

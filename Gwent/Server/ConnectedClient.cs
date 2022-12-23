@@ -1,7 +1,7 @@
 using System.Net.Sockets;
 using Models.Dtos;
-using XProtocol;
-using XProtocol.Serializator;
+using Protocol;
+using Protocol.Serializator;
 
 namespace Server;
 
@@ -58,7 +58,8 @@ public class ConnectedClient
                 var name = XPacketConverter.Deserialize<GameStartRequest>(packet).PlayerName;
                 GameRunner = Server.AddClientIntoGame(this, name);
                 break;
-            case XPacketType.GameResponse:
+            case XPacketType.PlayerMove:
+                if (GameRunner is null) throw new NullReferenceException("Client did not join game yet");
                 GameRunner.MovesQueue.Enqueue(XPacketConverter.Deserialize<PlayerMove>(packet));
                 break;
             default:
@@ -80,8 +81,8 @@ public class ConnectedClient
         _packetSendingQueue.Enqueue(packet);
     }
 
-    public void QueuePacketSend(XPacketType type, object obj) => 
-        QueuePacketSend(XPacketConverter.Serialize(type,obj).ToPacket());
+    public void QueuePacketSend(XPacketType type, object obj) =>
+        QueuePacketSend(XPacketConverter.Serialize(type, obj).ToPacket());
 
     private void SendPackets()
     {

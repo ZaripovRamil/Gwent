@@ -2,9 +2,10 @@
 
 namespace Models;
 
-public class Game //TODO Start game here
+public class Game
 {
     public readonly Player[] Players;
+
     public Game(string player1Name, string player2Name) //Server creates game here 
     {
         var player1 = new Player(player1Name, this, 1);
@@ -20,12 +21,12 @@ public class Game //TODO Start game here
         if (startInfo.ThisPlayerNumber == 0)
         {
             player1 = new Player(startInfo.Player1Name, this, startInfo.Hand);
-            player2 = new Player(startInfo.Player2Name, this);
+            player2 = new Player(startInfo.Player2Name, this, Array.Empty<int>());
         }
         else
         {
             player2 = new Player(startInfo.Player2Name, this, startInfo.Hand);
-            player1 = new Player(startInfo.Player1Name, this);
+            player1 = new Player(startInfo.Player1Name, this, Array.Empty<int>());
         }
 
         Players = new[] {player1, player2};
@@ -56,27 +57,41 @@ public class Game //TODO Start game here
             player.HasPassed = false;
             player.OwnField = Player.SetupField();
         }
-            
     }
 
+    //this is move execution on client
+    public void ExecuteMove(MoveResult move)
+    {
+        UpdateDeck(move);
+        /*TODO: provide move execution on client with access to UI features
+            It must be logically same compared to server ExecuteMove()
+            Before move, update deck with move.PulledCards*/
+    }
+
+    //this is move execution on server
     public List<MoveResult> ExecuteMove(PlayerMove move)
     {
-        var results = new List<MoveResult>(){null, null};
-        if (CurrentlyMoving.Name != move.PlayerName) return null;
+        var results = new MoveResult[2];
+        if (CurrentlyMoving.Name != move.PlayerName) return results.ToList();
         var moveResult = move.HasPassed
             ? CurrentlyMoving.Pass()
             : CurrentlyMoving.PlayCard(move.CardPositionInHand, move.Row, move.CardPositionInRow);
         if (IsRoundFinished) moveResult.IsLastMoveInRound = true;
         else CurrentlyMoving = CalculateNextMovingPlayer();
-        for(var i = 0;i<Players.Length;i++)
+        for (var i = 0; i < Players.Length; i++)
         {
             if (Players[i].Name != moveResult.PlayerName) continue;
             results[i] = moveResult;
-            moveResult.PulledCards = null;
-            results[(i+1)%2] = moveResult;
+            moveResult.PulledCards = new List<int>();
+            results[(i + 1) % 2] = moveResult;
         }
 
-        return results;
+        return results.ToList();
+    }
+
+    private void UpdateDeck(MoveResult move)
+    {
+        Players.First(player => player.Name == move.PlayerName).Deck = new Deck(move.PulledCards, false);
     }
 
     private Player CalculateNextMovingPlayer()

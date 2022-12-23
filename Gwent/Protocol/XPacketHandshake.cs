@@ -1,7 +1,6 @@
 ﻿using Protocol.Serializator;
-using XProtocol.Serializator;
 
-namespace XProtocol
+namespace Protocol
 {
     public class XPacketHandshake
     {

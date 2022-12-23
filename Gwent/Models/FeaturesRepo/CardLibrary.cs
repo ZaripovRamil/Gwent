@@ -2,7 +2,7 @@
 
 public static class CardLibrary
 {
-    private static List<Card> Cards { get; } =
+    private static List<Card?> Cards { get; } =
         new()
         {
             null,
@@ -14,7 +14,5 @@ public static class CardLibrary
             new Card(6,Role.Shooter, 2,GameImpactLibrary.GameImpacts[4])
         };
 
-    public static Card GetCard(int id) => Cards[id].GetCopy();
-
-    //TODO fill dictionary
+    public static Card GetCard(int id) => Cards[id]!.GetCopy();
 }

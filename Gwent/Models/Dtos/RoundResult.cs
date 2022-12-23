@@ -9,10 +9,8 @@ public class RoundResult
         IsDraw = isDraw;
         WinnerName = winnerName;
     }
-    [XField(1)]
-    public bool IsLastRound { get; set; }
-    [XField(2)]
-    public bool IsDraw { get; set; }
-    [XField(3)]
-    public string? WinnerName { get; set; }
+
+    [XField(1)] public bool IsLastRound { get; set; }
+    [XField(2)] public bool IsDraw { get; }
+    [XField(3)] public string? WinnerName { get; }
 }

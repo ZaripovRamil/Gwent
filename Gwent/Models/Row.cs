@@ -7,10 +7,10 @@ public class Row
         Role = role;
         Cards = new List<Card>();
     }
-    
+
     public int Power
     {
-        get { return Cards.Sum(card=>card.ResultPower); }
+        get { return Cards.Sum(card => card.ResultPower); }
     }
 
     public List<Card> Cards { get; }

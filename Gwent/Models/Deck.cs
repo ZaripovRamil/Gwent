@@ -16,7 +16,7 @@ public class Deck
             var rnd = new Random();
             Cards = new Card[cards.Length].ToList();
             var freeSpots = new List<int>();
-            for (int i = 0; i < cards.Length; i++)
+            for (var i = 0; i < cards.Length; i++)
                 freeSpots.Add(i);
             foreach (var card in cards)
             {

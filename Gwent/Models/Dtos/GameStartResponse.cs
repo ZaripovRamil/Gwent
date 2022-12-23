@@ -11,12 +11,9 @@ public class GameStartResponse
         Player2Name = player2Name;
         Hand = hand;
     }
-    [XField(3)]
-    public int ThisPlayerNumber { get; set; } // 0 - player1, 1 - player2
-    [XField(1)]
-    public string Player1Name { get; set; }
-    [XField(2)]
-    public string Player2Name { get; set; }
-    [XField(4)]
-    public int[] Hand { get; set; }
+
+    [XField(3)] public int ThisPlayerNumber { get; } // 0 - player1, 1 - player2
+    [XField(1)] public string Player1Name { get; }
+    [XField(2)] public string Player2Name { get; }
+    [XField(4)] public int[] Hand { get; }
 }

@@ -6,20 +6,22 @@ namespace Models;
 public class Player
 {
     //this constructor for server
-    public Player(string name, Game game, int deckId):this(name, game)
+    public Player(string name, Game game, int deckId) : this(name, game)
     {
         Hand = new List<Card>();
         Deck = new Deck(DecksLibrary.Decks[deckId], true);
-        for(var i =0;i<10;i++)
+        for (var i = 0; i < 10; i++)
             PullCard();
     }
+
     //this constructor for client
-    public Player(string name, Game game, int[] hand):this(name, game)
+    public Player(string name, Game game, int[] hand) : this(name, game)
     {
         Hand = hand.Select(CardLibrary.GetCard).ToList();
     }
+
     //basic constructor
-    public Player(string name, Game game)
+    private Player(string name, Game game)
     {
         GameField = game;
         Name = name;
@@ -33,6 +35,7 @@ public class Player
     {
         get { return OwnField.Sum(row => row.Power); }
     }
+
     public bool HasPassed { get; set; }
     public Game GameField { get; set; }
     public List<Row> OwnField { get; set; }
@@ -50,7 +53,7 @@ public class Player
             throw new IndexOutOfRangeException("Wrong position in a row");
         var result = new MoveResult(this, positionInHand, rowIndex, positionInRow);
         rowCards.Insert(positionInRow, card);
-        if(card.OwnImpact.TriggerType == TriggerType.OnPlay)
+        if (card.OwnImpact.TriggerType == TriggerType.OnPlay)
             card.OwnImpact.Impact(GameField, this, result);
         return result;
     }
@@ -77,5 +80,4 @@ public class Player
     }
 
     public static List<Row> SetupField() => new() {new Row(Role.Melee), new Row(Role.Shooter)};
-    
 }
