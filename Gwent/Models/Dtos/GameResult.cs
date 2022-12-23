@@ -1,4 +1,6 @@
-﻿namespace Models.Dtos;
+﻿using XProtocol.Serializator;
+
+namespace Models.Dtos;
 
 public class GameResult
 {
@@ -7,7 +9,8 @@ public class GameResult
         IsDraw = isDraw;
         WinnerName = winnerName;
     }
-
+    [XField(1)]
     public bool IsDraw { get; set; }
+    [XField(2)]
     public string? WinnerName { get; set; }
 }

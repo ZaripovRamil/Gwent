@@ -4,9 +4,7 @@ namespace Models;
 
 public class Game //TODO Start game here
 {
-    public int HasPassed { get; set; }
     public readonly Player[] Players;
-
     public Game(string player1Name, string player2Name) //Server creates game here 
     {
         var player1 = new Player(player1Name, this, 1);

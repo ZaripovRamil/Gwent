@@ -1,4 +1,6 @@
-﻿namespace Models.Dtos;
+﻿using XProtocol.Serializator;
+
+namespace Models.Dtos;
 
 public class GameStartRequest
 {
@@ -6,6 +8,6 @@ public class GameStartRequest
     {
         PlayerName = playerName;
     }
-
+    [XField(1)]
     public string PlayerName { get; set; }
 }
