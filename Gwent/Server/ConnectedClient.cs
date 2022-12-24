@@ -1,5 +1,8 @@
 using System.Net.Sockets;
 using Models.Dtos;
+using Models.Dtos.GameStartRequest;
+using Models.Dtos.GameStartResponse;
+using Models.Dtos.MoveResult;
 using Protocol;
 using Protocol.Serializator;
 

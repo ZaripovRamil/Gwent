@@ -26,4 +26,8 @@
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
 	<AvaloniaResource Include="Assets\*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>
 </Project>
