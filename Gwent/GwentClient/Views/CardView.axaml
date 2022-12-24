@@ -2,27 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="150"
              x:Class="GwentClient.Views.CardView">
-	
-	<Panel Background="AliceBlue" Width="100" Height="150">
+
+	<Panel Width="100" Height="150" Background="AliceBlue">
 		<Image Stretch="Fill" Source="{Binding CardImage}"></Image>
-		<Panel Margin="-20" Width="50" VerticalAlignment="Top" HorizontalAlignment="Left">
+		<Panel Margin="-10 -15 0 0" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Image Source="/Assets/PowerFrame.png"/>
 			<TextBlock Text="{Binding CurrentPower}"
-					   FontSize="12" 
+					   FontSize="17"
 					   Foreground="White"
 					   HorizontalAlignment="Center"
 					   VerticalAlignment="Center"/>
 		</Panel>
-		<Panel Margin="-20" Width="50" VerticalAlignment="Top" HorizontalAlignment="Right">
+		<Panel Margin="-15 20 0 0" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Image Source="/Assets/PowerFrame.png"/>
-			<Image Source="{Binding RoleImage}" Width="18"/>
+			<Image Source="{Binding RoleImage}" Width="20"/>
 		</Panel>
-		<TextBlock Text="{Binding Name}"
-				   Margin="10"
-				   VerticalAlignment="Bottom"
-				   HorizontalAlignment="Center"
-				   Foreground="White"/>
+		
 	</Panel>
+	
 </UserControl>

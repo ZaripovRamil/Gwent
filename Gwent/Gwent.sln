@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocol", "Protocol\Protoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GwentClient", "GwentClient\GwentClient.csproj", "{1A9911B7-C089-4CDC-AB8C-EF5B02DD8F63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPClient", "TCPClient\TCPClient.csproj", "{0C10E389-C7FB-4000-85DB-19A867359B31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1A9911B7-C089-4CDC-AB8C-EF5B02DD8F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A9911B7-C089-4CDC-AB8C-EF5B02DD8F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A9911B7-C089-4CDC-AB8C-EF5B02DD8F63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C10E389-C7FB-4000-85DB-19A867359B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C10E389-C7FB-4000-85DB-19A867359B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C10E389-C7FB-4000-85DB-19A867359B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C10E389-C7FB-4000-85DB-19A867359B31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,55 +10,32 @@
 		<Image Stretch="Fill" Source="/Assets/Background.jpg"/>
 		<DockPanel>
 			<Panel DockPanel.Dock="Left" Width="250">
-				<Panel Height="200" Margin="0 0 0 150" Background="Blue" VerticalAlignment="Bottom">
+				<ContentControl VerticalAlignment="Bottom" Margin="0 0 0 150" Content="{Binding PlayerStatus}"/>
 
-				</Panel>
-
-				<Panel Height="200" Margin="0 150 0 0" Background="Blue" VerticalAlignment="Top">
-
-				</Panel>
+				<ContentControl VerticalAlignment="Top" Margin="0 150 0 0" Content="{Binding EnemyStatus}"/>
 			</Panel>
 
-			<Panel DockPanel.Dock="Right" Width="250">
+			<Panel DockPanel.Dock="Right" Width="150">
 
 			</Panel>
 
 			<Panel>
-				<DockPanel Margin="100 0">
-					<Panel Height="150" DockPanel.Dock="Bottom">
-						<ItemsControl Items="{Binding Hand}">
-
-						</ItemsControl>
+				<DockPanel Margin="50 0">
+					<Panel Height="190" DockPanel.Dock="Bottom">
+						<ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent" SelectedIndex="{Binding SelectedCard}" Items="{Binding Hand}">
+							<ListBox.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel/>
+								</ItemsPanelTemplate>
+							</ListBox.ItemsPanel>
+						</ListBox>
 					</Panel>
 
 					<Grid RowDefinitions="*, *, *, *">
-						<Panel Grid.Row="0">
-							<Border Classes="row"/>
-							<Image Margin="30" Source="/Assets/Shooter.png"/>
-							<ItemsControl Items="{Binding EnemyShooter}">
-
-							</ItemsControl>
-						</Panel>
-
-						<Panel Grid.Row="1">
-							<Border Classes="row"/>
-							<Image Margin="30" Source="/Assets/Melee.png"/>
-							<ItemsControl Items="{Binding EnemyMelee}">
-
-							</ItemsControl>
-						</Panel>
-
-						<Panel Grid.Row="2">
-							<Border Classes="row"/>
-							<Image Margin="30" Source="/Assets/Melee.png"/>
-							<ItemsControl Items="{Binding PlayerMelee}">
-
-							</ItemsControl>
-						</Panel>
-
-						<views:RowView Grid.Row="3"/>
-						
-						
+						<ContentControl Content="{Binding EnemyShooter}" Grid.Row="0"/>
+						<ContentControl Content="{Binding EnemyMelee}" Grid.Row="1"/>
+						<ContentControl Content="{Binding PlayerMelee}" Grid.Row="2"/>
+						<ContentControl Content="{Binding PlayerShooter}" Grid.Row="3"/>
 					</Grid>
 
 				</DockPanel>

@@ -8,6 +8,6 @@
         x:Class="GwentClient.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="GwentClient"
-		WindowState="Maximized">
-    <views:GameFieldView/>
+		WindowState="Maximized"
+		Content="{Binding GameField}">
 </Window>

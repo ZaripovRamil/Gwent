@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="GwentClient.Views.RowView">
-	<Button IsEnabled="{Binding IsAvailableToPlayer}" Background="Transparent" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="3">
+	<Button Command="{Binding AddCard}" IsEnabled="{Binding IsAvailableToPlayer}" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 		<Panel>
 
 			<Border Classes="row"/>
-			<Image Margin="30" Source="{Binding RowImagePath}"/>
+			<Image Margin="30" Source="{Binding RowImage}"/>
 
 			<ItemsControl Items="{Binding RowCards}">
 				<ItemsControl.ItemsPanel>

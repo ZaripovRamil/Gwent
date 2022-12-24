@@ -30,7 +30,7 @@ namespace GwentClient.ViewModels
             Name = card.Name;
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-            CardImage = new Bitmap(assets.Open(new Uri($"avares://GwentClient/Assets/CardImages/{Id}.png")));
+            CardImage = new Bitmap(assets.Open(new Uri($"avares://GwentClient/Assets/CardImages/{Id}.jpg")));
             RoleImage = new Bitmap(assets.Open(new Uri($"avares://GwentClient/Assets/RoleImages/{Role}.png")));
         }
     }

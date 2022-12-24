@@ -1,10 +1,7 @@
 ﻿using GwentClient.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ReactiveUI;
 
 namespace GwentClient.ViewModels
 {
@@ -12,15 +9,35 @@ namespace GwentClient.ViewModels
     {
         public string PlayerName { get; }
         public string EnemyName { get; }
+
         public ObservableCollection<CardViewModel> Hand { get; set; }
-        public ObservableCollection<CardViewModel> PlayerShooter { get; set; }
-        public ObservableCollection<CardViewModel> PlayerMelee { get; set; }
-        public ObservableCollection<CardViewModel> EnemyMelee { get; set; }
-        public ObservableCollection<CardViewModel> EnemyShooter { get; set; }
+        public RowViewModel PlayerShooter { get; set; }
+        public RowViewModel PlayerMelee { get; set; }
+        public RowViewModel EnemyMelee { get; set; }
+        public RowViewModel EnemyShooter { get; set; }
+
+        public PlayerStatusViewModel PlayerStatus { get; set; }
+        public PlayerStatusViewModel EnemyStatus { get; set; }
+
+        private int selectedCard;
+        public int SelectedCard
+        {
+            get => selectedCard;
+            set => this.RaiseAndSetIfChanged(ref selectedCard, value);
+        }
+
         public GameFieldViewModel(List<int> hand, string playerName, string enemyName)
         {
             PlayerName = playerName;
             EnemyName = enemyName;
+
+            PlayerShooter = new RowViewModel(Role.Shooter, true);
+            PlayerMelee = new RowViewModel(Role.Melee, true);
+            EnemyMelee = new RowViewModel(Role.Melee, false);
+            EnemyShooter = new RowViewModel(Role.Shooter, false);
+
+            PlayerStatus = new PlayerStatusViewModel(PlayerName, 2);
+            EnemyStatus = new PlayerStatusViewModel(EnemyName, 2);
 
             Hand = new ObservableCollection<CardViewModel>();
             foreach(var cardId in hand)
