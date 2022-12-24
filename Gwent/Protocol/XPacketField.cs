@@ -1,8 +1,9 @@
-﻿namespace Protocol;
-
-public class XPacketField
+﻿namespace Protocol
 {
-    public byte FieldId { get; set; }
-    public byte FieldSize { get; set; }
-    public byte[] Contents { get; set; }
+    public class XPacketField
+    {
+        public byte FieldId { get; set; }
+        public byte FieldSize { get; set; }
+        public byte[] Contents { get; set; }
+    }
 }

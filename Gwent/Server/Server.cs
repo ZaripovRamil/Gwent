@@ -20,7 +20,7 @@ public class Server
         var ipAddress = ipHostInfo.AddressList[0];
         _games = new List<GameRunner>();
         _clients = new List<ConnectedClient>();
-        _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         NameClientDictionary = new Dictionary<string, ConnectedClient>();
     }
 

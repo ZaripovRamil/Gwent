@@ -60,12 +60,12 @@ public class Game
     }
 
     //this is move execution on client
-    public void ExecuteMove(MoveResult move)
+    public Game ExecuteMove(MoveResult move)
     {
         UpdateDeck(move);
-        /*TODO: provide move execution on client with access to UI features
-            It must be logically same compared to server ExecuteMove()
-            Before move, update deck with move.PulledCards*/
+        ExecuteMove(new PlayerMove(move.PlayerName, move.HasPassed, move.CardPositionInHand, move.Row,
+            move.CardPositionInRow));
+        return this;
     }
 
     //this is move execution on server
