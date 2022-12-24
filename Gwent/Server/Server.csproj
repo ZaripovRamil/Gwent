@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AnotherProtocol\AnotherProtocol.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
-      <ProjectReference Include="..\Protocol\Protocol.csproj" />
     </ItemGroup>
 
 </Project>
