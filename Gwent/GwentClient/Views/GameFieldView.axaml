@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:views="clr-namespace:GwentClient.Views"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="GwentClient.Views.GameFieldView">
+
+	<Panel>
+		<Image Stretch="Fill" Source="/Assets/Background.jpg"/>
+		<DockPanel>
+			<Panel DockPanel.Dock="Left" Width="250">
+				<ContentControl VerticalAlignment="Bottom" Margin="0 0 0 150" Content="{Binding PlayerStatus}"/>
+
+				<ContentControl VerticalAlignment="Top" Margin="0 150 0 0" Content="{Binding EnemyStatus}"/>
+			</Panel>
+
+			<Panel DockPanel.Dock="Right" Width="150">
+
+			</Panel>
+
+			<Panel>
+				<DockPanel Margin="50 0">
+					<Panel Height="190" DockPanel.Dock="Bottom">
+						<ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent" SelectedIndex="{Binding SelectedCard}" Items="{Binding Hand}">
+							<ListBox.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel/>
+								</ItemsPanelTemplate>
+							</ListBox.ItemsPanel>
+						</ListBox>
+					</Panel>
+
+					<Grid RowDefinitions="*, *, *, *">
+						<ContentControl Content="{Binding EnemyShooter}" Grid.Row="0"/>
+						<ContentControl Content="{Binding EnemyMelee}" Grid.Row="1"/>
+						<ContentControl Content="{Binding PlayerMelee}" Grid.Row="2"/>
+						<ContentControl Content="{Binding PlayerShooter}" Grid.Row="3"/>
+					</Grid>
+
+				</DockPanel>
+			</Panel>
+
+		</DockPanel>
+	</Panel>
+</UserControl>
