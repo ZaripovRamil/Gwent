@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
-using Models.Dtos;
+using Models.Dtos.GameStartResponse;
+using Models.Dtos.MoveResult;
 
 namespace Server;
 

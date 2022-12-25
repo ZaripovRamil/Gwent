@@ -5,7 +5,7 @@ namespace TCPClient
 {
     internal class Program
     {
-        private static int _handshakeMagic;
+        //TODO Move this to another Client
 
         private static void Main()
         {
@@ -22,50 +22,18 @@ namespace TCPClient
 
             client.QueuePacketSend(
                 XPacketConverter.Serialize(
-                    XPacketType.Handshake,
-                    new XPacketHandshake
-                    {
-                        MagicHandshakeNumber = _handshakeMagic
-                    })
+                        XPacketType.Handshake,
+                        new XPacketHandshake
+                        {
+                            MagicHandshakeNumber = _handshakeMagic
+                        })
                     .ToPacket());
 
-            while (true) { }
-        }
-
-        private static void OnPacketRecieve(byte[] packet)
-        {
-            var parsed = XPacket.Parse(packet);
-
-            if (parsed != null)
+            while (true)
             {
-                ProcessIncomingPacket(parsed);
             }
         }
 
-        private static void ProcessIncomingPacket(XPacket packet)
-        {
-            var type = XPacketTypeManager.GetTypeFromPacket(packet);
-
-            switch (type)
-            {
-                case XPacketType.Handshake:
-                    ProcessHandshake(packet);
-                    break;
-                case XPacketType.Unknown:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private static void ProcessHandshake(XPacket packet)
-        {
-            var handshake = XPacketConverter.Deserialize<XPacketHandshake>(packet);
-
-            if (_handshakeMagic - handshake.MagicHandshakeNumber == 15)
-            {
-                Console.WriteLine("Handshake successful!");
-            }
-        }
+        
     }
 }

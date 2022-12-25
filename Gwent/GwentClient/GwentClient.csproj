@@ -28,7 +28,9 @@
 	<AvaloniaResource Include="Assets\*" />
   </ItemGroup>
 
+
   <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Protocol\Protocol.csproj" />
   </ItemGroup>
 </Project>

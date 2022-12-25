@@ -1,5 +1,8 @@
 using System.Net.Sockets;
 using Models.Dtos;
+using Models.Dtos.GameStartRequest;
+using Models.Dtos.GameStartResponse;
+using Models.Dtos.MoveResult;
 using Protocol;
 using Protocol.Serializator;
 
@@ -55,7 +58,7 @@ public class ConnectedClient
             case XPacketType.Unknown:
                 break;
             case XPacketType.GameRequest:
-                var name = XPacketConverter.Deserialize<GameStartRequest>(packet).PlayerName;
+                var name = XPacketConverter.Deserialize<AdaptedGameStartRequest>(packet).Parse().PlayerName;
                 GameRunner = Server.AddClientIntoGame(this, name);
                 break;
             case XPacketType.PlayerMove:
@@ -102,11 +105,11 @@ public class ConnectedClient
 
     public void SendStartResponse(GameStartResponse startResponse)
     {
-        QueuePacketSend(XPacketType.GameResponse, startResponse);
+        QueuePacketSend(XPacketType.GameResponse, new AdaptedGameStartResponse(startResponse));
     }
 
     public void SendMoveResult(MoveResult moveResult)
     {
-        QueuePacketSend(XPacketType.GameResponse, moveResult);
+        QueuePacketSend(XPacketType.GameResponse, new AdaptedMoveResult(moveResult));
     }
 }
