@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GwentClient.ViewModels;
 using Models;
 using Models.Dtos;
 using Models.Dtos.GameStartRequest;
@@ -16,7 +17,8 @@ public class GameRunner
     private string? Player1Name { get; set; }
     private string? Player2Name { get; set; }
     private Game? Game { get; set; }
-    
+    private MainWindowViewModel MainWindow { get; set; }
+
     public bool IsFilled => Game is not null;
 
     public Queue<MoveResult> ReceivingMovesQueue { get; }
@@ -24,12 +26,15 @@ public class GameRunner
     //TODO Add moves here from UI
     public Queue<PlayerMove> SendingMovesQueue { get; }
 
-    public GameRunner(Client client)
+    public GameRunner(Client client, MainWindowViewModel mainWindow)
     {
         Client = client;
         ReceivingMovesQueue = new Queue<MoveResult>();
         SendingMovesQueue = new Queue<PlayerMove>();
+
+        MainWindow = mainWindow;
     }
+
     //TODO Call this from UI
     public void AskForGameStart(string name)
     {
@@ -42,7 +47,7 @@ public class GameRunner
         Player1Name = response.Player1Name;
         Player2Name = response.Player2Name;
         Game = new Game(response);
-        //TODO здесь отправить на отрисовку состояние игры
+        MainWindow.CreateGameField(Game);
         Task.Run(StartGame);
     }
 
@@ -59,16 +64,16 @@ public class GameRunner
             if (ReceivingMovesQueue.Count != 0)
             {
                 var game = Game.ExecuteMove(ReceivingMovesQueue.Dequeue());
-                //TODO преобразовать и отправить game на отрисовку
+                MainWindow.UpdateGameField(game);
                 if (Game.IsRoundFinished)
                 {
                     var roundResult = Game.CalculateRoundResult();
-                    //TODO отправить на отрисовку окончание раунда
-                    
+                    MainWindow.ShowRoundResult(roundResult);
+
                     if (Game.IsGameFinished)
                     {
                         var gameResult = Game.CalculateGameResult();
-                        //TODO отправить на отрисовку окончание игры
+                        MainWindow.ShowGameResult(gameResult);
                     }
                 }
 

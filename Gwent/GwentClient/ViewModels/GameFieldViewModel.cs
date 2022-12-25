@@ -9,9 +9,14 @@ namespace GwentClient.ViewModels
 {
     public class GameFieldViewModel : ViewModelBase
     {
+        public GameRunner GameRunner { get; set; }
+
         public string PlayerName { get; }
         public string EnemyName { get; }
-        private Client client;
+        public int PlayerNumber { get; }
+        public int EnemyNumber => PlayerNumber == 0 ? 1 : 0;
+
+        public bool HasPassed { get; set; }
 
         public ObservableCollection<CardViewModel> Hand { get; set; }
         public RowViewModel PlayerShooter { get; set; }
@@ -29,10 +34,14 @@ namespace GwentClient.ViewModels
             set => this.RaiseAndSetIfChanged(ref selectedCard, value);
         }
 
+        public void Pass() => HasPassed = true;
+
         public void Update(Game game)
         {
-            var player = game.Players[0];
-            var enemy = game.Players[1];
+            var player = game.Players[PlayerNumber];
+            var enemy = game.Players[EnemyNumber];
+
+            HasPassed = false;
 
             Hand.Clear();
             foreach(var card in player.Hand)
@@ -87,18 +96,22 @@ namespace GwentClient.ViewModels
             dialog.Show();
         }
 
-        public GameFieldViewModel(Game game)
+        public GameFieldViewModel(Game game, GameRunner gameRunner, int thisPlayerNumber)
         {
-            var player = game.Players[0];
-            var enemy = game.Players[1];
+            PlayerNumber = thisPlayerNumber;
+            GameRunner = gameRunner;
+
+            var player = game.Players[PlayerNumber];
+            var enemy = game.Players[EnemyNumber];
 
             PlayerName = player.Name;
             EnemyName = enemy.Name;
 
-            PlayerShooter = new RowViewModel(Role.Shooter, true);
-            PlayerMelee = new RowViewModel(Role.Melee, true);
-            EnemyMelee = new RowViewModel(Role.Melee, false);
-            EnemyShooter = new RowViewModel(Role.Shooter, false);
+            var isPlayerTurn = game.CurrentlyMoving.Name == PlayerName;
+            PlayerShooter = new RowViewModel(Role.Shooter, isPlayerTurn, this);
+            PlayerMelee = new RowViewModel(Role.Melee, isPlayerTurn, this);
+            EnemyMelee = new RowViewModel(Role.Melee, false, this);
+            EnemyShooter = new RowViewModel(Role.Shooter, false, this);
 
             PlayerStatus = new PlayerStatusViewModel(PlayerName, player.Lives);
             EnemyStatus = new PlayerStatusViewModel(EnemyName, enemy.Lives);

@@ -4,11 +4,11 @@ namespace GwentClient.ViewModels
 {
     public class PlayerStatusViewModel : ViewModelBase
     {
-        private string lives;
-        public string Lives
+        private int lives;
+        public int Lives
         {
             get => lives;
-            set => this.RaiseAndSetIfChanged(ref lives, value + "◊");
+            set => this.RaiseAndSetIfChanged(ref lives, value);
         }
 
         public int CurrentLives { get; set; }
@@ -26,7 +26,7 @@ namespace GwentClient.ViewModels
         {
             Name = name;
             CurrentLives = currentLives;
-            Lives = currentLives.ToString();
+            Lives = currentLives;
         }
     }
 }

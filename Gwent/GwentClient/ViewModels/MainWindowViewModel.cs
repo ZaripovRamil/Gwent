@@ -1,13 +1,13 @@
 ﻿using Models;
 using Models.Dtos;
 using ReactiveUI;
-using System;
 
 namespace GwentClient.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         ViewModelBase content;
+        public GameRunner GameRunner;
 
         public ViewModelBase Content
         {
@@ -21,11 +21,13 @@ namespace GwentClient.ViewModels
         {
             var client = new Client();
             client.Connect("127.0.0.1", 4910);
+            GameRunner = new GameRunner(client, this);
+            client.GameRunner = GameRunner;
 
             Content = new LoginViewModel(this);
         }
 
-        public void CreateGameField(Game game) => Content = new GameFieldViewModel(game);
+        public void CreateGameField(Game game) => Content = new GameFieldViewModel(game, GameRunner);
 
         public void UpdateGameField(Game game)
         {

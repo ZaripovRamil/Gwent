@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using GwentClient.ViewModels;
 using Models.Dtos;
 using Models.Dtos.GameStartRequest;
 using Models.Dtos.GameStartResponse;
@@ -23,6 +24,7 @@ public class Client
     private Socket _socket;
     private IPEndPoint _serverEndPoint;
     public GameRunner GameRunner;
+
     public void Connect(string ip, int port)
     {
         Connect(new IPEndPoint(IPAddress.Parse(ip), port));
