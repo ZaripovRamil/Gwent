@@ -47,7 +47,7 @@ public class GameRunner
         Player1Name = response.Player1Name;
         Player2Name = response.Player2Name;
         Game = new Game(response);
-        MainWindow.CreateGameField(Game);
+        MainWindow.CreateGameField(Game, response.ThisPlayerNumber);
         Task.Run(StartGame);
     }
 

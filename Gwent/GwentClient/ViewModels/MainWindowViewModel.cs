@@ -23,11 +23,13 @@ namespace GwentClient.ViewModels
             client.Connect("127.0.0.1", 4910);
             GameRunner = new GameRunner(client, this);
             client.GameRunner = GameRunner;
+            Client = client;
 
             Content = new LoginViewModel(this);
         }
 
-        public void CreateGameField(Game game) => Content = new GameFieldViewModel(game, GameRunner);
+        public void CreateGameField(Game game, int thisPlayerNumber)
+            => Content = new GameFieldViewModel(game, GameRunner, thisPlayerNumber);
 
         public void UpdateGameField(Game game)
         {
