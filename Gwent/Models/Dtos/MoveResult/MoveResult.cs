@@ -2,21 +2,24 @@
 
 public class MoveResult
 {
-    public MoveResult(Player player, int cardPositionInHand, int row, int cardPositionInRow)
+    public MoveResult(Player player, int cardPositionInHand, int row, int cardPositionInRow):
+        this(player.Id, false,cardPositionInHand, row, cardPositionInRow,new List<byte>())
     {
-        HasPassed = false;
-        PlayerId = player.Id;
-        CardPositionInHand = cardPositionInHand;
-        Row = row;
-        CardPositionInRow = cardPositionInRow;
-        PulledCards = new List<byte>();
     }
 
-    public MoveResult(Player player, bool hasPassed)
+    public MoveResult(Player player, bool hasPassed):
+        this(player.Id, hasPassed, 0,0,0,new List<byte>())
     {
-        PlayerId = player.Id;
+    }
+
+    public MoveResult(int id, bool hasPassed, int cardPositionInHand, int row, int cardPositionInRow, List<byte> pulledCards)
+    {
+        PlayerId = id;
         HasPassed = hasPassed;
-        PulledCards = new List<byte>();
+        CardPositionInRow = cardPositionInRow;
+        Row = row;
+        CardPositionInHand = cardPositionInHand;
+        PulledCards = pulledCards;
     }
 
     public int PlayerId { get; }
@@ -25,5 +28,4 @@ public class MoveResult
     public int Row { get; }
     public int CardPositionInRow { get; }
     public List<byte> PulledCards { get; set; }
-    public bool IsLastMoveInRound { get; set; }
 }

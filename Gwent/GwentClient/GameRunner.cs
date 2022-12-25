@@ -59,6 +59,19 @@ public class GameRunner
             {
                 var game = Game.ExecuteMove(ReceivingMovesQueue.Dequeue());
                 //TODO преобразовать и отправить game на отрисовку
+                if (Game.IsRoundFinished)
+                {
+                    var roundResult = Game.CalculateRoundResult();
+                    //TODO отправить на отрисовку окончание раунда
+                    
+                    if (Game.IsGameFinished)
+                    {
+                        var gameResult = Game.CalculateGameResult();
+                        //TODO отправить на отрисовку окончание игры
+                    }
+                }
+
+               
             }
         }
     }
