@@ -9,5 +9,5 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="GwentClient"
 		WindowState="Maximized"
-		Content="{Binding GameField}">
+		Content="{Binding Content}">
 </Window>

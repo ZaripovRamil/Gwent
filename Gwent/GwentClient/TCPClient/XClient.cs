@@ -28,9 +28,9 @@ namespace TCPClient
             _serverEndPoint = server;
 
             var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            var ipAddress = ipHostInfo.AddressList[0];
+            var ipAddress = ipHostInfo.AddressList[1];
 
-            _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _socket.Connect(_serverEndPoint);
 
             Task.Run((Action)RecievePackets);
