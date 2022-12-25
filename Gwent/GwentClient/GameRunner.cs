@@ -19,10 +19,10 @@ public class GameRunner
     
     public bool IsFilled => Game is not null;
 
-    internal Queue<MoveResult> ReceivingMovesQueue { get; }
+    public Queue<MoveResult> ReceivingMovesQueue { get; }
     
     //TODO Add moves here from UI
-    internal Queue<PlayerMove> SendingMovesQueue { get; }
+    public Queue<PlayerMove> SendingMovesQueue { get; }
 
     public GameRunner(Client client)
     {

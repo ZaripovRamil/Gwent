@@ -22,7 +22,7 @@ public class Client
 
     private Socket _socket;
     private IPEndPoint _serverEndPoint;
-    private GameRunner GameRunner;
+    public GameRunner GameRunner;
     public void Connect(string ip, int port)
     {
         Connect(new IPEndPoint(IPAddress.Parse(ip), port));

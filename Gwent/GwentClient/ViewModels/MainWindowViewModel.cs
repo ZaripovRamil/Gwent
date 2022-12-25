@@ -1,7 +1,4 @@
-﻿using Protocol;
-using ReactiveUI;
-using System;
-using TCPClient;
+﻿using ReactiveUI;
 
 namespace GwentClient.ViewModels
 {
@@ -15,43 +12,14 @@ namespace GwentClient.ViewModels
             private set => this.RaiseAndSetIfChanged(ref content, value);
         }
 
-        public XClient Client;
+        public Client Client;
 
         public MainWindowViewModel()
         {
-            var client = new XClient();
-            
-            client.OnPacketRecieve += OnPacketRecieve;
+            var client = new Client();
             client.Connect("127.0.0.1", 4910);
-            Client = client;
 
             Content = new LoginViewModel(this);
-        }
-
-        private static void OnPacketRecieve(byte[] packet)
-        {
-            var parsed = XPacket.Parse(packet);
-
-            if (parsed != null)
-            {
-                ProcessIncomingPacket(parsed);
-            }
-        }
-
-        private static void ProcessIncomingPacket(XPacket packet)
-        {
-            var type = XPacketTypeManager.GetTypeFromPacket(packet);
-
-            switch (type)
-            {
-                case XPacketType.GameResponse:
-                    
-                    break;
-                case XPacketType.Unknown:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
     }
 }

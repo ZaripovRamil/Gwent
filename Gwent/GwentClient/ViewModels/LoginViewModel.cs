@@ -2,7 +2,7 @@
 using MessageBox.Avalonia;
 using Protocol.Serializator;
 using Protocol;
-using GwentClient.Models.Dtos;
+using Models.Dtos.GameStartRequest;
 
 namespace GwentClient.ViewModels
 {
@@ -26,10 +26,7 @@ namespace GwentClient.ViewModels
                 return;
             }
 
-            MainWindow.Client.QueuePacketSend(
-                XPacketConverter
-                .Serialize(XPacketType.GameRequest, new GameStartRequest(Login))
-                .ToPacket());
+            MainWindow.Client.SendStartRequest(new GameStartRequest(Login));
         }
 
         public LoginViewModel(MainWindowViewModel mainWindow)
