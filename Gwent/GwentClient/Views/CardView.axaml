@@ -19,7 +19,11 @@
 			<Image Source="/Assets/PowerFrame.png"/>
 			<Image Source="{Binding RoleImage}" Width="20"/>
 		</Panel>
-		
+		<TextBlock Text="{Binding Name}"
+				   Margin="10"
+				   VerticalAlignment="Bottom"
+				   HorizontalAlignment="Center"
+				   Foreground="White"/>
 	</Panel>
 	
 </UserControl>

@@ -6,20 +6,27 @@
              x:Class="GwentClient.Views.LoginView">
 	<Panel>
 		<Image Stretch="Fill" Source="/Assets/Background.jpg"/>
-		<TextBlock Margin="200" HorizontalAlignment="Center" Foreground="White" FontSize="180">ГВИНТ</TextBlock>
-		<StackPanel Width="250" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center">
-			<TextBlock Padding="25 0 0 0" Foreground="AliceBlue" FontSize="30">Введите логин</TextBlock>
-			<TextBox></TextBox>
-			<Button Foreground="White"
-					HorizontalContentAlignment="Center"
-					BorderBrush="Black"
-					BorderThickness="2"
-					Margin="5"
-					Width="150"
-					Height="30"
-					HorizontalAlignment="Center"
-					FontSize="16"
-					Content="Войти"/>
-		</StackPanel>
+		
+		<DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+			<TextBlock DockPanel.Dock="Top" FontWeight="ExtraLight" Foreground="White" FontSize="150">ГВИНТ</TextBlock>
+			<StackPanel Margin="30">
+				<TextBlock FontFamily="Impact" HorizontalAlignment="Center" Foreground="AliceBlue" FontSize="25">Введите логин</TextBlock>
+				<TextBox Width="200" Text="{Binding Login}"></TextBox>
+				<Button Command="{Binding SendLogin}"
+						Foreground="White"
+						FontFamily="Impact"
+						HorizontalContentAlignment="Center"
+						BorderBrush="Black"
+						BorderThickness="2"
+						Margin="5"
+						Width="150"
+						Height="40"
+						HorizontalAlignment="Center"
+						FontSize="20"
+						Content="Войти"/>
+			</StackPanel>
+		</DockPanel>
+
+		
 	</Panel>
 </UserControl>

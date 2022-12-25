@@ -23,11 +23,14 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
     <PackageReference Include="FluentAvaloniaUI" Version="1.4.5" />
+    <PackageReference Include="MessageBox.Avalonia" Version="2.0.2" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
 	<AvaloniaResource Include="Assets\*" />
   </ItemGroup>
 
+
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Protocol\Protocol.csproj" />
   </ItemGroup>
 </Project>
