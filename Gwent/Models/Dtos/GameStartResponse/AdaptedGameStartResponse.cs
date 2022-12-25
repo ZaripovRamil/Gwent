@@ -6,7 +6,10 @@ public class AdaptedGameStartResponse
 {
     public AdaptedGameStartResponse(GameStartResponse response)
     {
-        throw new NotImplementedException();
+        ThisPlayerNumber = response.ThisPlayerNumber;
+        (Player1NamePart1, Player1NamePart2, Player1NamePart3) = Adapter.Adapt(response.Player1Name);
+        (Player2NamePart1, Player2NamePart2, Player2NamePart3) = Adapter.Adapt(response.Player2Name);
+        Hand = Adapter.Adapt(response.Hand);
     }
     [XField(1)] public int ThisPlayerNumber { get; } // 0 - player1, 1 - player2
     [XField(2)] public long Hand { get; }
@@ -18,6 +21,11 @@ public class AdaptedGameStartResponse
     [XField(8)]public long Player2NamePart3 { get; }
     public GameStartResponse Parse()
     {
-        throw new NotImplementedException();
+        return new GameStartResponse(
+            Adapter.ParseString(Player1NamePart1, Player1NamePart2, Player1NamePart3),
+            Adapter.ParseString(Player2NamePart1, Player2NamePart2, Player2NamePart3),
+            ThisPlayerNumber,
+            Adapter.ParseCards(Hand).ToArray()
+        );
     }
 }

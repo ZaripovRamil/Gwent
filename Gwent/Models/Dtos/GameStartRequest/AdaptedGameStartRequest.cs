@@ -6,7 +6,7 @@ public class AdaptedGameStartRequest
 {
     public AdaptedGameStartRequest(GameStartRequest request)
     {
-        throw new NotImplementedException();
+        (NamePart1, NamePart2, NamePart3) = Adapter.Adapt(request.PlayerName);
     }
 
     [XField(1)]public long NamePart1 { get; }
@@ -15,6 +15,6 @@ public class AdaptedGameStartRequest
 
     public GameStartRequest Parse()
     {
-        throw new NotImplementedException();
+        return new GameStartRequest(Adapter.ParseString(NamePart1, NamePart2, NamePart3));
     }
 }
