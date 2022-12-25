@@ -41,7 +41,8 @@ public class GameRunner
         ThisPlayerId = response.ThisPlayerNumber;
         Player1Name = response.Player1Name;
         Player2Name = response.Player2Name;
-        Game = new Game(Player1Name, Player2Name);
+        Game = new Game(response);
+        //TODO здесь отправить на отрисовку состояние игры
         Task.Run(StartGame);
     }
 
