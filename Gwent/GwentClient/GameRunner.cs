@@ -41,7 +41,8 @@ public class GameRunner
         ThisPlayerId = response.ThisPlayerNumber;
         Player1Name = response.Player1Name;
         Player2Name = response.Player2Name;
-        Game = new Game(Player1Name, Player2Name);
+        Game = new Game(response);
+        //TODO здесь отправить на отрисовку состояние игры
         Task.Run(StartGame);
     }
 
@@ -59,6 +60,19 @@ public class GameRunner
             {
                 var game = Game.ExecuteMove(ReceivingMovesQueue.Dequeue());
                 //TODO преобразовать и отправить game на отрисовку
+                if (Game.IsRoundFinished)
+                {
+                    var roundResult = Game.CalculateRoundResult();
+                    //TODO отправить на отрисовку окончание раунда
+                    
+                    if (Game.IsGameFinished)
+                    {
+                        var gameResult = Game.CalculateGameResult();
+                        //TODO отправить на отрисовку окончание игры
+                    }
+                }
+
+               
             }
         }
     }

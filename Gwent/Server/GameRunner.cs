@@ -44,6 +44,8 @@ public class GameRunner
             if (MovesQueue.Count != 0)
             {
                 var moveResults = Game.ExecuteMove(MovesQueue.Dequeue());
+                if (Game.IsRoundFinished)
+                    Game.CalculateRoundResult();
                 Server.SendMoveResult(Player1Name, moveResults[0]);
                 Server.SendMoveResult(Player2Name, moveResults[1]);
             }
