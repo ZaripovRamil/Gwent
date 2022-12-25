@@ -1,8 +1,5 @@
 ﻿using ReactiveUI;
 using MessageBox.Avalonia;
-using Protocol.Serializator;
-using Protocol;
-using Models.Dtos.GameStartRequest;
 
 namespace GwentClient.ViewModels
 {
@@ -26,7 +23,7 @@ namespace GwentClient.ViewModels
                 return;
             }
 
-            MainWindow.Client.SendStartRequest(new GameStartRequest(Login));
+            MainWindow.Client.GameRunner.AskForGameStart(Login);
         }
 
         public LoginViewModel(MainWindowViewModel mainWindow)
