@@ -2,6 +2,8 @@
 
 public class GameStartRequest
 {
+    public GameStartRequest(){}
+    
     public GameStartRequest(string playerName)
     {
         PlayerName = playerName;
