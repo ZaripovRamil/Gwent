@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="450"
+             x:Class="GwentClient.Views.PlayerStatusView">
+	<Border Margin="15" BoxShadow="5 5 20 2 black" Height="150" CornerRadius="20">
+		<DockPanel>
+			<Image Height="120" DockPanel.Dock="Left" Source="/Assets/PlayerIcon.png"/>
+			<StackPanel VerticalAlignment="Center">
+				<TextBlock Foreground="White" FontSize="27" Text="{Binding Name}"/>
+				<TextBlock FontFamily="Impact" Foreground="BlueViolet" FontSize="27" Text="{Binding Lives}"/>
+				<TextBlock Foreground="Wheat" FontSize="27" Text="{Binding SumPower}"/>
+			</StackPanel>
+		</DockPanel>
+	</Border>
+</UserControl>

@@ -1,4 +1,5 @@
 ﻿using Models.Dtos;
+using Models.Dtos.MoveResult;
 
 namespace Models.FeaturesRepo;
 

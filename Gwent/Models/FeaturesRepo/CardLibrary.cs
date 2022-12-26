@@ -14,5 +14,5 @@ public static class CardLibrary
             new Card(6,Role.Shooter, 2,GameImpactLibrary.GameImpacts[4])
         };
 
-    public static Card GetCard(int id) => Cards[id]!.GetCopy();
+    public static Card GetCard(byte id) => Cards[id]!.GetCopy();
 }

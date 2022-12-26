@@ -1,4 +1,6 @@
 ﻿using Models.Dtos;
+using Models.Dtos.GameStartResponse;
+using Models.Dtos.MoveResult;
 
 namespace Models;
 
@@ -8,8 +10,8 @@ public class Game
 
     public Game(string player1Name, string player2Name) //Server creates game here 
     {
-        var player1 = new Player(player1Name, this, 1);
-        var player2 = new Player(player2Name, this, 1);
+        var player1 = new Player(player1Name, this, 1,0);
+        var player2 = new Player(player2Name, this, 1,1);
         Players = new[] {player1, player2};
         CurrentlyMoving = player1;
     }
@@ -20,13 +22,13 @@ public class Game
         Player player2;
         if (startInfo.ThisPlayerNumber == 0)
         {
-            player1 = new Player(startInfo.Player1Name, this, startInfo.Hand);
-            player2 = new Player(startInfo.Player2Name, this, Array.Empty<int>());
+            player1 = new Player(startInfo.Player1Name, this, startInfo.Hand,0);
+            player2 = new Player(startInfo.Player2Name, this, Array.Empty<byte>(),1);
         }
         else
         {
-            player2 = new Player(startInfo.Player2Name, this, startInfo.Hand);
-            player1 = new Player(startInfo.Player1Name, this, Array.Empty<int>());
+            player1 = new Player(startInfo.Player1Name, this, Array.Empty<byte>(),0);
+            player2 = new Player(startInfo.Player2Name, this, startInfo.Hand,1);
         }
 
         Players = new[] {player1, player2};
@@ -63,7 +65,7 @@ public class Game
     public Game ExecuteMove(MoveResult move)
     {
         UpdateDeck(move);
-        ExecuteMove(new PlayerMove(move.PlayerName, move.HasPassed, move.CardPositionInHand, move.Row,
+        ExecuteMove(new PlayerMove(move.PlayerId, move.HasPassed, move.CardPositionInHand, move.Row,
             move.CardPositionInRow));
         return this;
     }
@@ -72,17 +74,16 @@ public class Game
     public List<MoveResult> ExecuteMove(PlayerMove move)
     {
         var results = new MoveResult[2];
-        if (CurrentlyMoving.Name != move.PlayerName) return results.ToList();
+        if (CurrentlyMoving != Players[move.PlayerId]) return results.ToList();
         var moveResult = move.HasPassed
             ? CurrentlyMoving.Pass()
             : CurrentlyMoving.PlayCard(move.CardPositionInHand, move.Row, move.CardPositionInRow);
-        if (IsRoundFinished) moveResult.IsLastMoveInRound = true;
-        else CurrentlyMoving = CalculateNextMovingPlayer();
+        if(!IsRoundFinished) CurrentlyMoving = CalculateNextMovingPlayer();
         for (var i = 0; i < Players.Length; i++)
         {
-            if (Players[i].Name != moveResult.PlayerName) continue;
+            if (i != moveResult.PlayerId) continue;
             results[i] = moveResult;
-            moveResult.PulledCards = new List<int>();
+            moveResult.PulledCards = new List<byte>();
             results[(i + 1) % 2] = moveResult;
         }
 
@@ -91,7 +92,7 @@ public class Game
 
     private void UpdateDeck(MoveResult move)
     {
-        Players.First(player => player.Name == move.PlayerName).Deck = new Deck(move.PulledCards, false);
+        Players.First(player => player.Id == move.PlayerId).Deck = new Deck(move.PulledCards, false);
     }
 
     private Player CalculateNextMovingPlayer()
