@@ -2,6 +2,8 @@
 
 public class MoveResult
 {
+    public MoveResult(){}
+    
     public MoveResult(Player player, int cardPositionInHand, int row, int cardPositionInRow):
         this(player.Id, false,cardPositionInHand, row, cardPositionInRow,new List<byte>())
     {
@@ -22,10 +24,10 @@ public class MoveResult
         PulledCards = pulledCards;
     }
 
-    public int PlayerId { get; }
-    public bool HasPassed { get; }
-    public int CardPositionInHand { get; }
-    public int Row { get; }
-    public int CardPositionInRow { get; }
-    public List<byte> PulledCards { get; set; }
+    public int PlayerId;
+    public bool HasPassed;
+    public int CardPositionInHand;
+    public int Row;
+    public int CardPositionInRow;
+    public List<byte> PulledCards;
 }

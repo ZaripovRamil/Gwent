@@ -2,6 +2,10 @@
 
 public class GameStartResponse
 {
+    public GameStartResponse()
+    {
+    }
+
     public GameStartResponse(string player1Name, string player2Name, int thisPlayerNumber, byte[] hand)
     {
         ThisPlayerNumber = thisPlayerNumber;
@@ -10,8 +14,8 @@ public class GameStartResponse
         Hand = hand;
     }
 
-    public int ThisPlayerNumber { get; } // 0 - player1, 1 - player2
-    public string Player1Name { get; }
-    public string Player2Name { get; }
-    public byte[] Hand { get; }
+    public int ThisPlayerNumber; // 0 - player1, 1 - player2
+    public string Player1Name;
+    public string Player2Name;
+    public byte[] Hand;
 }

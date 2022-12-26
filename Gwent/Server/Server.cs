@@ -76,9 +76,10 @@ public class Server
 
     public GameRunner AddClientIntoGame(ConnectedClient client, string name)
     {
+        var game = LastGame;
         NameClientDictionary[name] = client;
-        LastGame.AddClient(name);
-        return LastGame;
+        game.AddClient(name);
+        return game;
     }
 
     public GameRunner LastGame

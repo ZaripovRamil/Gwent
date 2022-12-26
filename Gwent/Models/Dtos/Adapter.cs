@@ -39,14 +39,12 @@ public class Adapter
 
     public static long Adapt(IEnumerable<byte> cards)
     {
-        var res = 0;
-        foreach (var card in  cards)
+        
+        return cards.Aggregate<byte, long>(0, (current, card) =>
         {
-            res = res * 256 + card;
-            if (res < 0) throw new Exception("Too many cards sent");
-        }
-
-        return res;
+            Console.WriteLine(card+" "+current);
+            return current * 256 + card;
+        });
     }
 
     public static IEnumerable<byte> ParseCards(long cards)

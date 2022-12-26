@@ -10,8 +10,8 @@ public class Game
 
     public Game(string player1Name, string player2Name) //Server creates game here 
     {
-        var player1 = new Player(player1Name, this, 1,0);
-        var player2 = new Player(player2Name, this, 1,1);
+        var player1 = new Player(player1Name, this, 0,0);
+        var player2 = new Player(player2Name, this, 0,1);
         Players = new[] {player1, player2};
         CurrentlyMoving = player1;
     }
