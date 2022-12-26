@@ -15,7 +15,6 @@ namespace GwentClient.ViewModels
         public Bitmap RowImage { get; }
         public Role RowRole { get; }
         public ObservableCollection<CardViewModel> RowCards { get; set; }
-        private int RowNumber => (int)RowRole;
 
         private bool isAvailableToPlayer;
         public bool IsAvailableToPlayer
@@ -43,15 +42,6 @@ namespace GwentClient.ViewModels
                 RowCards.Add(new CardViewModel(card));
         }
 
-        public void SentPlayedCard()
-        {
-            GameField.GameRunner.SendingMovesQueue.Enqueue(
-                new PlayerMove(
-                    GameField.PlayerNumber,
-                    GameField.HasPassed,
-                    GameField.SelectedCard,
-                    RowNumber,
-                    RowCards.Count + 1));
-        }
+        public void SendPlayerMove() => GameField.SendPlayerMove(this);
     }
 }

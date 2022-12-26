@@ -34,7 +34,26 @@ namespace GwentClient.ViewModels
             set => this.RaiseAndSetIfChanged(ref selectedCard, value);
         }
 
-        public void Pass() => HasPassed = true;
+        public void Pass()
+        {
+            HasPassed = true;
+            PlayerMelee.SendPlayerMove();
+        }
+
+        public void SendPlayerMove(RowViewModel row)
+        {
+            if (!HasPassed && Hand[SelectedCard].Role != row.RowRole)
+                return;
+
+            GameRunner.SendingMovesQueue.Enqueue(
+                new PlayerMove(
+                    PlayerNumber,
+                    HasPassed,
+                    SelectedCard,
+                    (int)row.RowRole,
+                    row.RowCards.Count + 1));
+        }
+
 
         public void Update(Game game)
         {
