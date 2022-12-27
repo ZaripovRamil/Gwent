@@ -24,6 +24,7 @@ public class AdaptedMoveResult
     [XField(4)] public int Row;
     [XField(5)] public int CardPositionInRow;
     [XField(6)] public long PulledCards;
+    [XField(7)] public byte CardId;
 
     public MoveResult Parse()
     {
@@ -33,6 +34,7 @@ public class AdaptedMoveResult
             CardPositionInHand,
             Row,
             CardPositionInRow,
+            CardId,
             Adapter.ParseCards(PulledCards).ToList()
         );
     }

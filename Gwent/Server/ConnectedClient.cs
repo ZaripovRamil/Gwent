@@ -110,6 +110,6 @@ public class ConnectedClient
 
     public void SendMoveResult(MoveResult moveResult)
     {
-        QueuePacketSend(XPacketType.GameResponse, new AdaptedMoveResult(moveResult));
+        QueuePacketSend(XPacketType.MoveResult, new AdaptedMoveResult(moveResult));
     }
 }

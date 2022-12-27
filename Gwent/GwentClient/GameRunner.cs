@@ -63,7 +63,7 @@ public class GameRunner
             }
             if (ReceivingMovesQueue.Count != 0)
             {
-                var game = Game.ExecuteMove(ReceivingMovesQueue.Dequeue());
+                var game = Game.ExecuteMove(ReceivingMovesQueue.Dequeue(), ThisPlayerId);
                 MainWindow.UpdateGameField(game);
                 if (Game.IsRoundFinished)
                 {

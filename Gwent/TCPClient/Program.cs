@@ -1,4 +1,5 @@
-﻿using Models.Dtos;
+﻿using Models;
+using Models.Dtos;
 using Protocol;
 using Protocol.Serializator;
 
@@ -10,10 +11,11 @@ namespace TCPClient
 
         private static void Main()
         {
-            foreach (var card in Adapter.ParseCards(Adapter.Adapt(new byte[] {1, 2, 3, 4, 5, 1, 2, 3})))
-            {
-                Console.Write(card+" ");
-            } ;
+            var game = new Game("Ramil", " Yakov");
+            Console.WriteLine(game.IsRoundFinished);
+            /*var move = XPacketConverter.Deserialize<PlayerMove>(
+                XPacketConverter.Serialize(XPacketType.PlayerMove, new PlayerMove(0,false,1,1,1)));
+            return;*/
             /*var client = new XClient();
             client.OnPacketRecieve += OnPacketRecieve;
             client.Connect("127.0.0.1", 4910);

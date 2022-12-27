@@ -31,7 +31,6 @@ public class GameRunner
         }
         else throw new Exception("Can't add client into a filled lobby");
     }
-
     private void StartGame()
     {
         if (Game is null || Player1Name is null || Player2Name is null)
