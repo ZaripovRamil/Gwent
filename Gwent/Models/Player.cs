@@ -37,8 +37,6 @@ public class Player
     {
         get { return OwnField.Sum(row => row.Power); }
     }
-
-    public bool HasPassed { get; set; }
     public Game GameField { get; set; }
     public List<Row> OwnField { get; set; }
     public string Name { get; set; }
@@ -52,19 +50,27 @@ public class Player
         var card = Hand[positionInHand];
         if (rowIndex != (int) card.Role) throw new ArgumentException("Wrong row");
         var rowCards = OwnField[rowIndex].Cards;
-        if (positionInRow > rowCards.Count || positionInRow < 0)
-            throw new IndexOutOfRangeException("Wrong position in a row");
-        var result = new MoveResult(this, positionInHand, rowIndex, positionInRow);
-        rowCards.Insert(positionInRow, card);
+        var result = new MoveResult(this, positionInHand, rowIndex, positionInRow, card.Id);
+        rowCards.Add(card);
         if (card.OwnImpact.TriggerType == TriggerType.OnPlay)
             card.OwnImpact.Impact(GameField, this, result);
         return result;
+    }
+    
+    public void PlayCard(byte cardIdPlayed)
+    {
+        var result = new MoveResult(Id, cardIdPlayed);
+        var card = CardLibrary.GetCard(cardIdPlayed);
+        var rowIndex = (int)card.Role;
+        OwnField[rowIndex].Cards.Add(card);
+        if (card.OwnImpact.TriggerType == TriggerType.OnPlay)
+            card.OwnImpact.Impact(GameField, this, result);
     }
 
     public MoveResult Pass()
     {
         var result = new MoveResult(this, true);
-        HasPassed = true;
+        GameField.HasPassed[Id] = true;
         return result;
     }
 
