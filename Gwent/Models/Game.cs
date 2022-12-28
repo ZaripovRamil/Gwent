@@ -11,10 +11,10 @@ public class Game
 
     public Game(string player1Name, string player2Name) //Server creates game here 
     {
-        var player1 = new Player(player1Name, this, 0,0);
-        var player2 = new Player(player2Name, this, 0,1);
+        var player1 = new Player(player1Name, this, 0, 0);
+        var player2 = new Player(player2Name, this, 0, 1);
         Players = new[] {player1, player2};
-        HasPassed = new bool[2] ;
+        HasPassed = new bool[2];
         CurrentlyMoving = player1;
     }
 
@@ -24,13 +24,13 @@ public class Game
         Player player2;
         if (startInfo.ThisPlayerNumber == 0)
         {
-            player1 = new Player(startInfo.Player1Name, this, startInfo.Hand,0);
-            player2 = new Player(startInfo.Player2Name, this, Array.Empty<byte>(),1);
+            player1 = new Player(startInfo.Player1Name, this, startInfo.Hand, 0);
+            player2 = new Player(startInfo.Player2Name, this, Array.Empty<byte>(), 1);
         }
         else
         {
-            player1 = new Player(startInfo.Player1Name, this, Array.Empty<byte>(),0);
-            player2 = new Player(startInfo.Player2Name, this, startInfo.Hand,1);
+            player1 = new Player(startInfo.Player1Name, this, Array.Empty<byte>(), 0);
+            player2 = new Player(startInfo.Player2Name, this, startInfo.Hand, 1);
         }
 
         HasPassed = new[] {false, false};
@@ -68,13 +68,18 @@ public class Game
     public Game ExecuteMove(MoveResult move, int clientPlayerId)
     {
         UpdateDeck(move);
-        if(move.PlayerId == clientPlayerId)
+        if (move.PlayerId == clientPlayerId)
             ExecuteMove(new PlayerMove(move.PlayerId, move.HasPassed, move.CardPositionInHand, move.Row,
                 move.CardPositionInRow));
         else
         {
-            Players[clientPlayerId].PlayCard(move.CardIdPlayed);
+            if (move.HasPassed)
+                CurrentlyMoving.Pass();
+            else
+                CurrentlyMoving.PlayCard(move.CardIdPlayed);
+            if (!IsRoundFinished) CurrentlyMoving = CalculateNextMovingPlayer();
         }
+
         return this;
     }
 
@@ -86,13 +91,14 @@ public class Game
         var moveResult = move.HasPassed
             ? CurrentlyMoving.Pass()
             : CurrentlyMoving.PlayCard(move.CardPositionInHand, move.Row, move.CardPositionInRow);
-        if(!IsRoundFinished) CurrentlyMoving = CalculateNextMovingPlayer();
+        if (!IsRoundFinished) CurrentlyMoving = CalculateNextMovingPlayer();
         for (var i = 0; i < Players.Length; i++)
         {
             if (i != moveResult.PlayerId) continue;
             results[i] = moveResult;
             results[(i + 1) % 2] = new(moveResult.PlayerId, moveResult.CardIdPlayed);
         }
+
         return results.ToList();
     }
 
@@ -103,7 +109,8 @@ public class Game
 
     private Player CalculateNextMovingPlayer()
     {
-        if (Players.All(player => HasPassed[player.Id])) throw new Exception("There is no next player in a finished round");
+        if (Players.All(player => HasPassed[player.Id]))
+            throw new Exception("There is no next player in a finished round");
         var otherPlayer = Players.FirstOrDefault(player => player != CurrentlyMoving && !HasPassed[player.Id]);
         return otherPlayer ?? CurrentlyMoving;
     }
