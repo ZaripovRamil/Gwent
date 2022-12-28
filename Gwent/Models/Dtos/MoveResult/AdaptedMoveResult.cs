@@ -13,6 +13,7 @@ public class AdaptedMoveResult
         PlayerId = moveResult.PlayerId;
         HasPassed = moveResult.HasPassed;
         CardPositionInRow = moveResult.CardPositionInRow;
+        CardId = moveResult.CardIdPlayed;
         CardPositionInHand = moveResult.CardPositionInHand;
         Row = moveResult.Row;
         PulledCards = Adapter.Adapt(moveResult.PulledCards);

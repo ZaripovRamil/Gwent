@@ -93,7 +93,6 @@ public class Game
             results[i] = moveResult;
             results[(i + 1) % 2] = new(moveResult.PlayerId, moveResult.CardIdPlayed);
         }
-
         return results.ToList();
     }
 
