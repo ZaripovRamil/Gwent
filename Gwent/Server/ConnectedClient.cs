@@ -11,7 +11,6 @@ namespace Server;
 public class ConnectedClient
 {
     public Socket Client { get; }
-
     private readonly Queue<byte[]> _packetSendingQueue = new();
     private GameRunner? GameRunner { get; set; }
     public Server Server { get; }
