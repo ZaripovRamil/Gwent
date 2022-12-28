@@ -4,6 +4,9 @@ using Models;
 using Models.FeaturesRepo;
 using Models.Dtos;
 using MessageBox.Avalonia;
+using System.Collections.Generic;
+using AvaloniaEdit.Utils;
+using System.Linq;
 
 namespace GwentClient.ViewModels
 {
@@ -62,9 +65,15 @@ namespace GwentClient.ViewModels
 
             HasPassed = false;
 
-            Hand.Clear();
-            foreach(var card in player.Hand)
-                Hand.Add(new CardViewModel(card));
+            Hand.RemoveAt(selectedCard);
+            //Hand.Clear();
+            //foreach (var card in player.Hand)
+            //    Hand.Add(new CardViewModel(card));
+
+            //var handList = new List<CardViewModel>();
+            //foreach (var card in player.Hand)
+            //    handList.Add(new CardViewModel(card));
+            //Hand.AddRange(handList);
 
             var isPlayerTurn = game.CurrentlyMoving == player;
             PlayerMelee.IsAvailableToPlayer = isPlayerTurn;
@@ -72,11 +81,8 @@ namespace GwentClient.ViewModels
 
             PlayerShooter.SetRow(player.OwnField[1]);
             PlayerMelee.SetRow(player.OwnField[0]);
-            EnemyShooter.SetRow(enemy.OwnField[0]);
-            EnemyMelee.SetRow(enemy.OwnField[1]);
-
-            PlayerStatus.Lives = player.Lives;
-            EnemyStatus.Lives = enemy.Lives;
+            EnemyShooter.SetRow(enemy.OwnField[1]);
+            EnemyMelee.SetRow(enemy.OwnField[0]);
         }
 
         public void ShowRoundResult(RoundResult roundResult)
@@ -138,7 +144,7 @@ namespace GwentClient.ViewModels
             Hand = new ObservableCollection<CardViewModel>();
             foreach(var card in player.Hand)
             {
-                Hand.Add(new CardViewModel(CardLibrary.GetCard(card.Id)));
+                Hand.Add(new CardViewModel(card));
             }
         }
     }

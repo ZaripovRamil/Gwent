@@ -1,10 +1,12 @@
 ﻿using Avalonia;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using AvaloniaEdit.Utils;
 using Models;
 using Models.Dtos;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace GwentClient.ViewModels
@@ -37,9 +39,15 @@ namespace GwentClient.ViewModels
 
         public void SetRow(Row row)
         {
-            RowCards.Clear();
+            //RowCards.Clear();
             foreach (var card in row.Cards)
                 RowCards.Add(new CardViewModel(card));
+
+            //RowCards.Clear();
+            //var rowList = new List<CardViewModel>();
+            //foreach (var card in row.Cards)
+            //    rowList.Add(new CardViewModel(card));
+            //RowCards.AddRange(rowList);
         }
 
         public void SendPlayerMove() => GameField.SendPlayerMove(this);
