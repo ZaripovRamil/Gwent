@@ -11,7 +11,7 @@
 		<DockPanel>
 			<Panel DockPanel.Dock="Left" Width="250">
 				<ContentControl VerticalAlignment="Bottom" Margin="0 0 0 150" Content="{Binding PlayerStatus}"/>
-				<Button Command="{Binding Pass}" BorderThickness="2" BorderBrush="White" Foreground="White" HorizontalAlignment="Center">Спасовать</Button>
+				<Button IsEnabled="{Binding !HasPassed}" Command="{Binding Pass}" BorderThickness="2" BorderBrush="White" Foreground="White" HorizontalAlignment="Center">Спасовать</Button>
 				<ContentControl VerticalAlignment="Top" Margin="0 150 0 0" Content="{Binding EnemyStatus}"/>
 			</Panel>
 

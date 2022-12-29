@@ -4,6 +4,9 @@ using Models;
 using Models.FeaturesRepo;
 using Models.Dtos;
 using MessageBox.Avalonia;
+using System.Collections.Generic;
+using AvaloniaEdit.Utils;
+using System.Linq;
 
 namespace GwentClient.ViewModels
 {
@@ -16,9 +19,20 @@ namespace GwentClient.ViewModels
         public int PlayerNumber { get; }
         public int EnemyNumber => PlayerNumber == 0 ? 1 : 0;
 
-        public bool HasPassed { get; set; }
+        private bool hasPassed;
+        public bool HasPassed
+        {
+            get => hasPassed;
+            set => this.RaiseAndSetIfChanged(ref hasPassed, value);
+        }
 
-        public ObservableCollection<CardViewModel> Hand { get; set; }
+        private ObservableCollection<CardViewModel> hand;
+        public ObservableCollection<CardViewModel> Hand
+        {
+            get => hand;
+            set => this.RaiseAndSetIfChanged(ref hand, value);
+        }
+
         public RowViewModel PlayerShooter { get; set; }
         public RowViewModel PlayerMelee { get; set; }
         public RowViewModel EnemyMelee { get; set; }
@@ -34,30 +48,52 @@ namespace GwentClient.ViewModels
             set => this.RaiseAndSetIfChanged(ref selectedCard, value);
         }
 
-        public void Pass() => HasPassed = true;
+        public void Pass()
+        {
+            HasPassed = true;
+            PlayerMelee.SendPlayerMove();
+        }
+
+        public void SendPlayerMove(RowViewModel row)
+        {
+            if (!HasPassed && Hand[SelectedCard].Role != row.RowRole)
+                return;
+
+            GameRunner.SendingMovesQueue.Enqueue(
+                new PlayerMove(
+                    PlayerNumber,
+                    HasPassed,
+                    SelectedCard,
+                    (int)row.RowRole,
+                    row.RowCards.Count + 1));
+        }
+
 
         public void Update(Game game)
         {
             var player = game.Players[PlayerNumber];
             var enemy = game.Players[EnemyNumber];
 
-            HasPassed = false;
+            //var handList = new List<CardViewModel>();
+            //foreach (var card in player.Hand)
+            //    handList.Add(new CardViewModel(card));
+            //Hand = new ObservableCollection<CardViewModel>(handList);
 
-            Hand.Clear();
-            foreach(var card in player.Hand)
+            Hand = new ObservableCollection<CardViewModel>();
+            foreach (var card in player.Hand)
                 Hand.Add(new CardViewModel(card));
-
+            
             var isPlayerTurn = game.CurrentlyMoving == player;
             PlayerMelee.IsAvailableToPlayer = isPlayerTurn;
             PlayerShooter.IsAvailableToPlayer = isPlayerTurn;
 
             PlayerShooter.SetRow(player.OwnField[1]);
             PlayerMelee.SetRow(player.OwnField[0]);
-            EnemyShooter.SetRow(enemy.OwnField[0]);
-            EnemyMelee.SetRow(enemy.OwnField[1]);
+            EnemyShooter.SetRow(enemy.OwnField[1]);
+            EnemyMelee.SetRow(enemy.OwnField[0]);
 
-            PlayerStatus.Lives = player.Lives;
-            EnemyStatus.Lives = enemy.Lives;
+            PlayerStatus.SumPower = player.Power;
+            EnemyStatus.SumPower = enemy.Power;
         }
 
         public void ShowRoundResult(RoundResult roundResult)
@@ -119,7 +155,7 @@ namespace GwentClient.ViewModels
             Hand = new ObservableCollection<CardViewModel>();
             foreach(var card in player.Hand)
             {
-                Hand.Add(new CardViewModel(CardLibrary.GetCard(card.Id)));
+                Hand.Add(new CardViewModel(card));
             }
         }
     }
