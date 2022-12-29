@@ -58,7 +58,7 @@ namespace GwentClient.ViewModels
 
         public void SendPlayerMove(RowViewModel row)
         {
-            if (SelectedCard == -1 || !HasPassed && Hand[SelectedCard].Role != row.RowRole)
+            if (SelectedCard == -1 && !HasPassed || !HasPassed && Hand[SelectedCard].Role != row.RowRole)
                 return;
 
             GameRunner.SendingMovesQueue.Enqueue(
@@ -89,7 +89,7 @@ namespace GwentClient.ViewModels
             PlayerMelee.IsAvailableToPlayer = isPlayerTurn;
             PlayerShooter.IsAvailableToPlayer = isPlayerTurn;
 
-            IsPassEnabled = isPlayerTurn || HasPassed;
+            IsPassEnabled = isPlayerTurn && !HasPassed;
 
             PlayerShooter.SetRow(player.OwnField[1]);
             PlayerMelee.SetRow(player.OwnField[0]);
