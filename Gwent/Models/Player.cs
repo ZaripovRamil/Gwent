@@ -51,6 +51,7 @@ public class Player
         if (rowIndex != (int) card.Role) throw new ArgumentException("Wrong row");
         var rowCards = OwnField[rowIndex].Cards;
         var result = new MoveResult(this, positionInHand, rowIndex, positionInRow, card.Id);
+        Hand.Remove(card);
         rowCards.Add(card);
         if (card.OwnImpact.TriggerType == TriggerType.OnPlay)
             card.OwnImpact.Impact(GameField, this, result);
