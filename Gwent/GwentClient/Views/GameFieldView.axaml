@@ -7,21 +7,21 @@
              x:Class="GwentClient.Views.GameFieldView">
 
 	<Panel>
-		<Image Stretch="Fill" Source="/Assets/Background.jpg"/>
+		<Image Stretch="UniformToFill" Source="/Assets/Background.jpg"/>
 		<DockPanel>
-			<Panel DockPanel.Dock="Left" Width="250">
-				<ContentControl VerticalAlignment="Bottom" Margin="0 0 0 150" Content="{Binding PlayerStatus}"/>
-				<Button IsEnabled="{Binding !HasPassed}" Command="{Binding Pass}" BorderThickness="2" BorderBrush="White" Foreground="White" HorizontalAlignment="Center">Спасовать</Button>
-				<ContentControl VerticalAlignment="Top" Margin="0 150 0 0" Content="{Binding EnemyStatus}"/>
-			</Panel>
+			<Grid RowDefinitions="2*, *, 2*" DockPanel.Dock="Left" Width="250">
+				<ContentControl Grid.Row="0" Content="{Binding EnemyStatus}"/>
+				<Button HorizontalAlignment="Center" Grid.Row="1" IsEnabled="{Binding IsPassEnabled}" Command="{Binding Pass}" BorderThickness="2" BorderBrush="White" Foreground="White">Спасовать</Button>
+				<ContentControl Grid.Row="2" Content="{Binding PlayerStatus}"/>
+			</Grid>
 
 			<Panel DockPanel.Dock="Right" Width="150">
 
 			</Panel>
 
 			<Panel>
-				<DockPanel Margin="50 0">
-					<Panel Height="190" DockPanel.Dock="Bottom">
+				<Grid RowDefinitions="*, *, *, *, *" Margin="50 0">
+					<Panel Grid.Row="4">
 						<ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent" SelectedIndex="{Binding SelectedCard}" Items="{Binding Hand}">
 							<ListBox.ItemsPanel>
 								<ItemsPanelTemplate>
@@ -31,14 +31,12 @@
 						</ListBox>
 					</Panel>
 
-					<Grid RowDefinitions="*, *, *, *">
-						<ContentControl Content="{Binding EnemyShooter}" Grid.Row="0"/>
-						<ContentControl Content="{Binding EnemyMelee}" Grid.Row="1"/>
-						<ContentControl Content="{Binding PlayerMelee}" Grid.Row="2"/>
-						<ContentControl Content="{Binding PlayerShooter}" Grid.Row="3"/>
-					</Grid>
+					<ContentControl Content="{Binding EnemyShooter}" Grid.Row="0"/>
+					<ContentControl Content="{Binding EnemyMelee}" Grid.Row="1"/>
+					<ContentControl Content="{Binding PlayerMelee}" Grid.Row="2"/>
+					<ContentControl Content="{Binding PlayerShooter}" Grid.Row="3"/>
 
-				</DockPanel>
+				</Grid>
 			</Panel>
 
 		</DockPanel>
