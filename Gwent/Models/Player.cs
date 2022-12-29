@@ -60,7 +60,7 @@ public class Player
     
     public void PlayCard(byte cardIdPlayed)
     {
-        var result = new MoveResult(Id, cardIdPlayed, new List<byte>());
+        var result = new MoveResult(Id,false, cardIdPlayed, new List<byte>());
         var card = CardLibrary.GetCard(cardIdPlayed);
         var rowIndex = (int)card.Role;
         OwnField[rowIndex].Cards.Add(card);

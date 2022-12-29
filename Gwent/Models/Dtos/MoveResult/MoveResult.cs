@@ -11,8 +11,8 @@ public class MoveResult
     {
     }
 
-    public MoveResult(int playerId, byte cardId, List<byte>pulledCards) :
-        this(playerId, false, 0, 0, 0, cardId, new byte[pulledCards.Count].ToList())
+    public MoveResult(int playerId, bool hasPassed, byte cardId, List<byte> pulledCards) :
+        this(playerId, hasPassed, 0, 0, 0, cardId, new byte[pulledCards.Count].ToList())
     {
     }
 

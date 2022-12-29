@@ -96,7 +96,7 @@ public class Game
         {
             if (i != moveResult.PlayerId) continue;
             results[i] = moveResult;
-            results[(i + 1) % 2] = new(moveResult.PlayerId, moveResult.CardIdPlayed, moveResult.PulledCards);
+            results[(i + 1) % 2] = new(moveResult.PlayerId,moveResult.HasPassed, moveResult.CardIdPlayed, moveResult.PulledCards);
         }
 
         return results.ToList();
