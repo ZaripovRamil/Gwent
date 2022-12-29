@@ -21,7 +21,13 @@ namespace GwentClient.ViewModels
 
         public bool HasPassed { get; set; }
 
-        public ObservableCollection<CardViewModel> Hand { get; set; }
+        private ObservableCollection<CardViewModel> hand;
+        public ObservableCollection<CardViewModel> Hand
+        {
+            get => hand;
+            set => this.RaiseAndSetIfChanged(ref hand, value);
+        }
+
         public RowViewModel PlayerShooter { get; set; }
         public RowViewModel PlayerMelee { get; set; }
         public RowViewModel EnemyMelee { get; set; }
@@ -65,15 +71,15 @@ namespace GwentClient.ViewModels
 
             HasPassed = false;
 
-            Hand.RemoveAt(selectedCard);
+            //Hand.RemoveAt(selectedCard);
             //Hand.Clear();
             //foreach (var card in player.Hand)
             //    Hand.Add(new CardViewModel(card));
 
-            //var handList = new List<CardViewModel>();
-            //foreach (var card in player.Hand)
-            //    handList.Add(new CardViewModel(card));
-            //Hand.AddRange(handList);
+            var handList = new List<CardViewModel>();
+            foreach (var card in player.Hand)
+                handList.Add(new CardViewModel(card));
+            Hand = new ObservableCollection<CardViewModel>(handList);
 
             var isPlayerTurn = game.CurrentlyMoving == player;
             PlayerMelee.IsAvailableToPlayer = isPlayerTurn;
