@@ -50,12 +50,14 @@ public class Adapter
     public static IEnumerable<byte> ParseCards(long cards)
     {
         var res = new List<byte>();
-        while (cards > 0)
+        while (cards>0)
         {
             res.Add((byte)(cards % 256));
             cards /= 256;
-        } 
+        }
         res.Reverse();
+        while (res.Count<8)
+            res.Add(0);
         return res;
     }
 }

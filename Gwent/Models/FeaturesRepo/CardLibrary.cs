@@ -5,7 +5,7 @@ public static class CardLibrary
     private static List<Card?> Cards { get; } =
         new()
         {
-            null,
+            new Card(0, Role.Melee, 0, GameImpactLibrary.GameImpacts[0]),//placeholder
             new Card(1,Role.Melee, 6,GameImpactLibrary.GameImpacts[0]),
             new Card(2,Role.Shooter, 3,GameImpactLibrary.GameImpacts[0]),
             new Card(3,Role.Melee, 3,GameImpactLibrary.GameImpacts[1]),
