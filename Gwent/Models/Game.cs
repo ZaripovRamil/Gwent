@@ -92,8 +92,6 @@ public class Game
             ? CurrentlyMoving.Pass()
             : CurrentlyMoving.PlayCard(move.CardPositionInHand, move.Row, move.CardPositionInRow);
         if (!IsRoundFinished) CurrentlyMoving = CalculateNextMovingPlayer();
-        else CalculateRoundResult();
-        if (IsGameFinished) CalculateGameResult();
         for (var i = 0; i < Players.Length; i++)
         {
             if (i != moveResult.PlayerId) continue;
