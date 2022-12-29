@@ -9,7 +9,10 @@
 			<Image Height="120" DockPanel.Dock="Left" Source="/Assets/PlayerIcon.png"/>
 			<StackPanel VerticalAlignment="Center">
 				<TextBlock Foreground="White" FontSize="27" Text="{Binding Name}"/>
-				<TextBlock FontFamily="Impact" Foreground="BlueViolet" FontSize="27" Text="{Binding Lives}"/>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock DockPanel.Dock="Left" FontFamily="Impact" Foreground="BlueViolet" FontSize="27" Text="{Binding Lives}"/>
+					<Image Width="30" Source="/Assets/Crystal.png"/>
+				</StackPanel>
 				<TextBlock Foreground="Wheat" FontSize="27" Text="{Binding SumPower}"/>
 			</StackPanel>
 		</DockPanel>

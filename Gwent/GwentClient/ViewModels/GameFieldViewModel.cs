@@ -19,11 +19,13 @@ namespace GwentClient.ViewModels
         public int PlayerNumber { get; }
         public int EnemyNumber => PlayerNumber == 0 ? 1 : 0;
 
-        private bool hasPassed;
-        public bool HasPassed
+        public bool HasPassed { get; set; }
+
+        private bool isPassEnabled;
+        public bool IsPassEnabled
         {
-            get => hasPassed;
-            set => this.RaiseAndSetIfChanged(ref hasPassed, value);
+            get => isPassEnabled;
+            set => this.RaiseAndSetIfChanged(ref isPassEnabled, value);
         }
 
         private ObservableCollection<CardViewModel> hand;
@@ -56,7 +58,7 @@ namespace GwentClient.ViewModels
 
         public void SendPlayerMove(RowViewModel row)
         {
-            if (!HasPassed && Hand[SelectedCard].Role != row.RowRole)
+            if (SelectedCard == -1 || !HasPassed && Hand[SelectedCard].Role != row.RowRole)
                 return;
 
             GameRunner.SendingMovesQueue.Enqueue(
@@ -65,7 +67,7 @@ namespace GwentClient.ViewModels
                     HasPassed,
                     SelectedCard,
                     (int)row.RowRole,
-                    row.RowCards.Count + 1));
+                    row.RowCards.Count));
         }
 
 
@@ -86,6 +88,8 @@ namespace GwentClient.ViewModels
             var isPlayerTurn = game.CurrentlyMoving == player;
             PlayerMelee.IsAvailableToPlayer = isPlayerTurn;
             PlayerShooter.IsAvailableToPlayer = isPlayerTurn;
+
+            IsPassEnabled = isPlayerTurn || HasPassed;
 
             PlayerShooter.SetRow(player.OwnField[1]);
             PlayerMelee.SetRow(player.OwnField[0]);
@@ -148,6 +152,8 @@ namespace GwentClient.ViewModels
             PlayerMelee = new RowViewModel(Role.Melee, isPlayerTurn, this);
             EnemyMelee = new RowViewModel(Role.Melee, false, this);
             EnemyShooter = new RowViewModel(Role.Shooter, false, this);
+
+            IsPassEnabled = isPlayerTurn;
 
             PlayerStatus = new PlayerStatusViewModel(PlayerName, player.Lives);
             EnemyStatus = new PlayerStatusViewModel(EnemyName, enemy.Lives);
