@@ -13,7 +13,7 @@ namespace GwentClient.ViewModels
 
         public int CurrentLives { get; set; }
 
-        public int sumPower;
+        private int sumPower;
         public int SumPower
         {
             get => sumPower;

@@ -19,7 +19,12 @@ namespace GwentClient.ViewModels
         public int PlayerNumber { get; }
         public int EnemyNumber => PlayerNumber == 0 ? 1 : 0;
 
-        public bool HasPassed { get; set; }
+        private bool hasPassed;
+        public bool HasPassed
+        {
+            get => hasPassed;
+            set => this.RaiseAndSetIfChanged(ref hasPassed, value);
+        }
 
         private ObservableCollection<CardViewModel> hand;
         public ObservableCollection<CardViewModel> Hand
@@ -69,18 +74,15 @@ namespace GwentClient.ViewModels
             var player = game.Players[PlayerNumber];
             var enemy = game.Players[EnemyNumber];
 
-            HasPassed = false;
-
-            //Hand.RemoveAt(selectedCard);
-            //Hand.Clear();
+            //var handList = new List<CardViewModel>();
             //foreach (var card in player.Hand)
-            //    Hand.Add(new CardViewModel(card));
+            //    handList.Add(new CardViewModel(card));
+            //Hand = new ObservableCollection<CardViewModel>(handList);
 
-            var handList = new List<CardViewModel>();
+            Hand = new ObservableCollection<CardViewModel>();
             foreach (var card in player.Hand)
-                handList.Add(new CardViewModel(card));
-            Hand = new ObservableCollection<CardViewModel>(handList);
-
+                Hand.Add(new CardViewModel(card));
+            
             var isPlayerTurn = game.CurrentlyMoving == player;
             PlayerMelee.IsAvailableToPlayer = isPlayerTurn;
             PlayerShooter.IsAvailableToPlayer = isPlayerTurn;
@@ -89,6 +91,9 @@ namespace GwentClient.ViewModels
             PlayerMelee.SetRow(player.OwnField[0]);
             EnemyShooter.SetRow(enemy.OwnField[1]);
             EnemyMelee.SetRow(enemy.OwnField[0]);
+
+            PlayerStatus.SumPower = player.Power;
+            EnemyStatus.SumPower = enemy.Power;
         }
 
         public void ShowRoundResult(RoundResult roundResult)

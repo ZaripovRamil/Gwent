@@ -8,6 +8,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Numerics;
 
 namespace GwentClient.ViewModels
 {
@@ -16,7 +17,13 @@ namespace GwentClient.ViewModels
         private GameFieldViewModel GameField { get; }
         public Bitmap RowImage { get; }
         public Role RowRole { get; }
-        public ObservableCollection<CardViewModel> RowCards { get; set; }
+
+        private ObservableCollection<CardViewModel> rowCards;
+        public ObservableCollection<CardViewModel> RowCards
+        {
+            get => rowCards;
+            set => this.RaiseAndSetIfChanged(ref rowCards, value);
+        }
 
         private bool isAvailableToPlayer;
         public bool IsAvailableToPlayer
@@ -39,15 +46,14 @@ namespace GwentClient.ViewModels
 
         public void SetRow(Row row)
         {
-            //RowCards.Clear();
+            RowCards = new ObservableCollection<CardViewModel>();
             foreach (var card in row.Cards)
                 RowCards.Add(new CardViewModel(card));
 
-            //RowCards.Clear();
             //var rowList = new List<CardViewModel>();
             //foreach (var card in row.Cards)
             //    rowList.Add(new CardViewModel(card));
-            //RowCards.AddRange(rowList);
+            //RowCards = new ObservableCollection<CardViewModel>(rowList);
         }
 
         public void SendPlayerMove() => GameField.SendPlayerMove(this);
