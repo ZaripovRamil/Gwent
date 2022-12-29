@@ -42,6 +42,7 @@ public class ConnectedClient
             {
                 ProcessIncomingPacket(parsed);
             }
+            Thread.Sleep(50);
         }
     }
 

@@ -57,7 +57,7 @@ public class Server
             {
                 return;
             }
-
+            Thread.Sleep(50);
             Socket client;
 
             try

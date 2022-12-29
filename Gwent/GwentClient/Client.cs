@@ -57,6 +57,7 @@ public class Client
     {
         while (true)
         {
+            Thread.Sleep(50);
             var buff = new byte[256];
             _socket.Receive(buff);
 
