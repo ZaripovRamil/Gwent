@@ -12,7 +12,7 @@ public class Card
 
     public byte Id { get; }
     public Role Role { get; }
-    private int BasePower { get; }
+    public int BasePower { get; }
 
     public GameImpact OwnImpact { get; }
     public List<PowerImpact> ForeignImpacts { get; } = new();

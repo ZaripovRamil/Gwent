@@ -11,12 +11,12 @@
 		<DockPanel>
 			<Grid RowDefinitions="2*, *, 2*" DockPanel.Dock="Left" Width="250">
 				<ContentControl Grid.Row="0" Content="{Binding EnemyStatus}"/>
-				<Button HorizontalAlignment="Center" Grid.Row="1" IsEnabled="{Binding IsPassEnabled}" Command="{Binding Pass}" BorderThickness="2" BorderBrush="White" Foreground="White">Спасовать</Button>
+				<Button HorizontalAlignment="Center" Grid.Row="1" IsEnabled="{Binding IsPassEnabled}" Command="{Binding Pass}" BorderThickness="2" BorderBrush="White" Foreground="White">Pass</Button>
 				<ContentControl Grid.Row="2" Content="{Binding PlayerStatus}"/>
 			</Grid>
 
 			<Panel DockPanel.Dock="Right" Width="150">
-
+				
 			</Panel>
 
 			<Panel>

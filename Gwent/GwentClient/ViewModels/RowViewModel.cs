@@ -49,11 +49,6 @@ namespace GwentClient.ViewModels
             RowCards = new ObservableCollection<CardViewModel>();
             foreach (var card in row.Cards)
                 RowCards.Add(new CardViewModel(card));
-
-            //var rowList = new List<CardViewModel>();
-            //foreach (var card in row.Cards)
-            //    rowList.Add(new CardViewModel(card));
-            //RowCards = new ObservableCollection<CardViewModel>(rowList);
         }
 
         public void SendPlayerMove() => GameField.SendPlayerMove(this);

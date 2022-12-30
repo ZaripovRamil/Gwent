@@ -25,8 +25,10 @@ namespace GwentClient.ViewModels
             client.GameRunner = GameRunner;
             Client = client;
 
-            Content = new LoginViewModel(this);
+            CreateLogin();
         }
+
+        public void CreateLogin() => Content = new LoginViewModel(this);
 
         public void CreateGameField(Game game, int thisPlayerNumber)
             => Content = new GameFieldViewModel(game, GameRunner, thisPlayerNumber);

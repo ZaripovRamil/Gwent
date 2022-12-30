@@ -77,11 +77,6 @@ namespace GwentClient.ViewModels
             var player = game.Players[PlayerNumber];
             var enemy = game.Players[EnemyNumber];
 
-            //var handList = new List<CardViewModel>();
-            //foreach (var card in player.Hand)
-            //    handList.Add(new CardViewModel(card));
-            //Hand = new ObservableCollection<CardViewModel>(handList);
-
             Hand = new ObservableCollection<CardViewModel>();
             foreach (var card in player.Hand)
                 Hand.Add(new CardViewModel(card));
@@ -99,6 +94,8 @@ namespace GwentClient.ViewModels
 
             PlayerStatus.SumPower = player.Power;
             EnemyStatus.SumPower = enemy.Power;
+            PlayerStatus.Lives = player.Lives;
+            EnemyStatus.Lives = enemy.Lives;
 
             SelectedCard = Hand.Count - 1;
         }
@@ -109,29 +106,21 @@ namespace GwentClient.ViewModels
                 return;
 
             if (roundResult.IsDraw)
-            {
-                PlayerStatus.Lives -= 1;
-                EnemyStatus.Lives -= 1;
-                ShowDialog("Раунд закончен!", $"Раунд закончился ничьей!");
-            }
+                ShowDialog("The round is over!", $"The round was draw!");
             else if (roundResult.WinnerName == PlayerName)
-            {
-                EnemyStatus.Lives -= 1;
-                ShowDialog("Раунд закончен!", $"{PlayerName}, вы победили в этом раунде!");
-            }
+                ShowDialog("The round is over!", $"{PlayerName}, you won this round!");
             else
-            {
-                PlayerStatus.Lives -= 1;
-                ShowDialog("Раунд закончен!", $"{PlayerName}, вы проиграли в этом раунде!");
-            }
+                ShowDialog("The round is over!", $"{PlayerName}, you lost this round!");
         }
 
         public void ShowGameResult(GameResult gameResult)
         {
             if (gameResult.IsDraw)
-                ShowDialog("Игра окончена!", "Ничья!");
+                ShowDialog("The game is over!", "Draw!");
             else
-                ShowDialog("Игра окончена!", $"{PlayerName} - король Гвинта!");
+                ShowDialog("The game is over!", $"{PlayerName} - king of Gwent!");
+
+            GameRunner.MainWindow.CreateLogin();
         }
 
         public void ShowDialog(string title, string message)

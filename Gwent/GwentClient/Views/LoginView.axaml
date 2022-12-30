@@ -8,11 +8,12 @@
 		<Image Stretch="Fill" Source="/Assets/Background.jpg"/>
 		
 		<DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-			<TextBlock DockPanel.Dock="Top" FontWeight="ExtraLight" Foreground="White" FontSize="150">ГВИНТ</TextBlock>
+			<TextBlock DockPanel.Dock="Top" FontWeight="ExtraLight" Foreground="White" FontSize="150">GWENT</TextBlock>
 			<StackPanel Margin="30">
-				<TextBlock FontFamily="Impact" HorizontalAlignment="Center" Foreground="AliceBlue" FontSize="25">Введите логин</TextBlock>
+				<TextBlock FontFamily="Impact" HorizontalAlignment="Center" Foreground="AliceBlue" FontSize="25">Type login</TextBlock>
 				<TextBox Width="200" Text="{Binding Login}"></TextBox>
-				<Button Command="{Binding SendLogin}"
+				<Button IsEnabled="{Binding HasLogged}"
+						Command="{Binding SendLogin}"
 						Foreground="White"
 						FontFamily="Impact"
 						HorizontalContentAlignment="Center"
@@ -23,7 +24,7 @@
 						Height="40"
 						HorizontalAlignment="Center"
 						FontSize="20"
-						Content="Войти"/>
+						Content="Enter"/>
 			</StackPanel>
 		</DockPanel>
 
