@@ -18,7 +18,7 @@ public class GameRunner
     private string? Player1Name { get; set; }
     private string? Player2Name { get; set; }
     private Game? Game { get; set; }
-    private MainWindowViewModel MainWindow { get; set; }
+    public MainWindowViewModel MainWindow { get; set; }
 
     public bool IsFilled => Game is not null;
 

@@ -77,11 +77,6 @@ namespace GwentClient.ViewModels
             var player = game.Players[PlayerNumber];
             var enemy = game.Players[EnemyNumber];
 
-            //var handList = new List<CardViewModel>();
-            //foreach (var card in player.Hand)
-            //    handList.Add(new CardViewModel(card));
-            //Hand = new ObservableCollection<CardViewModel>(handList);
-
             Hand = new ObservableCollection<CardViewModel>();
             foreach (var card in player.Hand)
                 Hand.Add(new CardViewModel(card));
@@ -111,19 +106,21 @@ namespace GwentClient.ViewModels
                 return;
 
             if (roundResult.IsDraw)
-                ShowDialog("Раунд закончен!", $"Раунд закончился ничьей!");
+                ShowDialog("The round is over!", $"The round was draw!");
             else if (roundResult.WinnerName == PlayerName)
-                ShowDialog("Раунд закончен!", $"{PlayerName}, вы победили в этом раунде!");
+                ShowDialog("The round is over!", $"{PlayerName}, you won this round!");
             else
-                ShowDialog("Раунд закончен!", $"{PlayerName}, вы проиграли в этом раунде!");
+                ShowDialog("The round is over!", $"{PlayerName}, you lost this round!");
         }
 
         public void ShowGameResult(GameResult gameResult)
         {
             if (gameResult.IsDraw)
-                ShowDialog("Игра окончена!", "Ничья!");
+                ShowDialog("The game is over!", "Draw!");
             else
-                ShowDialog("Игра окончена!", $"{PlayerName} - король Гвинта!");
+                ShowDialog("The game is over!", $"{PlayerName} - king of Gwent!");
+
+            GameRunner.MainWindow.CreateLogin();
         }
 
         public void ShowDialog(string title, string message)

@@ -11,7 +11,7 @@
 			<Image Width="30" Source="/Assets/PowerFrame.png"/>
 			<TextBlock Text="{Binding CurrentPower}"
 					   FontSize="17"
-					   Foreground="White"
+					   Foreground="{Binding TextColor}"
 					   HorizontalAlignment="Center"
 					   VerticalAlignment="Center"/>
 		</Panel>
