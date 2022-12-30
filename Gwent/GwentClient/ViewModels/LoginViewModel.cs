@@ -27,7 +27,7 @@ namespace GwentClient.ViewModels
 
             if (Login == null || Login.Length < 3 || Login.Length > 8)
             {
-                var dialog = MessageBoxManager.GetMessageBoxStandardWindow("Ошибка!", "Логин должен быть от 3 до 8 символов.");
+                var dialog = MessageBoxManager.GetMessageBoxStandardWindow("Error!", "The login must be from 3 to 8 characters.");
                 dialog.Show();
                 return;
             }
