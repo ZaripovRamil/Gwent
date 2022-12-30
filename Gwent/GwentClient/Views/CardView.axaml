@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="150"
              x:Class="GwentClient.Views.CardView">
 
-	<Panel MaxWidth="100" VerticalAlignment="Stretch" Background="AliceBlue">
+	<Panel ToolTip.Tip="{Binding Description}" MaxWidth="100" VerticalAlignment="Stretch" Background="AliceBlue">
 		<Image Stretch="Fill" Source="{Binding CardImage}"></Image>
 		<Panel Width="30" VerticalAlignment="Bottom" HorizontalAlignment="Right">
 			<Image Width="30" Source="/Assets/PowerFrame.png"/>

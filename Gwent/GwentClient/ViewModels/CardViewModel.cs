@@ -3,6 +3,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Models;
+using Models.FeaturesRepo;
 using ReactiveUI;
 using System;
 
@@ -24,6 +25,13 @@ namespace GwentClient.ViewModels
             set => this.RaiseAndSetIfChanged(ref textColor, value);
         }
 
+        private string description;
+        public string Description
+        {
+            get => description;
+            set => this.RaiseAndSetIfChanged(ref description, value);
+        }
+
         public int Id { get; }
         public Bitmap CardImage { get; }
         public Role Role { get; }
@@ -34,6 +42,8 @@ namespace GwentClient.ViewModels
             Id = card.Id;
             currentPower = card.ResultPower;
             Role = card.Role;
+
+            Description = CardLibrary.CardsDesc[Id];
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
             CardImage = new Bitmap(assets.Open(new Uri($"avares://GwentClient/Assets/CardImages/{Id}.jpg")));
