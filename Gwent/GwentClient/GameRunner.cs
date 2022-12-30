@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using GwentClient.ViewModels;
 using Models;
 using Models.Dtos;
@@ -64,7 +65,7 @@ public class GameRunner
             if (ReceivingMovesQueue.Count != 0)
             {
                 var game = Game.ExecuteMove(ReceivingMovesQueue.Dequeue(), ThisPlayerId);
-                MainWindow.UpdateGameField(game);
+                Dispatcher.UIThread.Post(() => MainWindow.UpdateGameField(game));
                 if (Game.IsRoundFinished)
                 {
                     var roundResult = Game.CalculateRoundResult();

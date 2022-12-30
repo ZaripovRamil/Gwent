@@ -7,6 +7,7 @@ using MessageBox.Avalonia;
 using System.Collections.Generic;
 using AvaloniaEdit.Utils;
 using System.Linq;
+using Avalonia.Threading;
 
 namespace GwentClient.ViewModels
 {
@@ -98,10 +99,15 @@ namespace GwentClient.ViewModels
 
             PlayerStatus.SumPower = player.Power;
             EnemyStatus.SumPower = enemy.Power;
+
+            SelectedCard = Hand.Count - 1;
         }
 
         public void ShowRoundResult(RoundResult roundResult)
         {
+            if (roundResult.IsLastRound)
+                return;
+
             if (roundResult.IsDraw)
             {
                 PlayerStatus.Lives -= 1;
@@ -111,12 +117,12 @@ namespace GwentClient.ViewModels
             else if (roundResult.WinnerName == PlayerName)
             {
                 EnemyStatus.Lives -= 1;
-                ShowDialog("Раунд закончен!", $"Вы победили в этом раунде!");
+                ShowDialog("Раунд закончен!", $"{PlayerName}, вы победили в этом раунде!");
             }
             else
             {
                 PlayerStatus.Lives -= 1;
-                ShowDialog("Раунд закончен!", $"Противник победил в этом раунде!");
+                ShowDialog("Раунд закончен!", $"{PlayerName}, вы проиграли в этом раунде!");
             }
         }
 
@@ -124,16 +130,18 @@ namespace GwentClient.ViewModels
         {
             if (gameResult.IsDraw)
                 ShowDialog("Игра окончена!", "Ничья!");
-            else if (gameResult.WinnerName == PlayerName)
-                ShowDialog("Игра окончена!", "Вы победили!");
             else
-                ShowDialog("Игра окончена!", "Противник победил!");
+                ShowDialog("Игра окончена!", $"{PlayerName} - король Гвинта!");
         }
 
         public void ShowDialog(string title, string message)
         {
-            var dialog = MessageBoxManager.GetMessageBoxStandardWindow(title, message);
-            dialog.Show();
+            HasPassed = false;
+            Dispatcher.UIThread.Post(() =>
+            {
+                var dialog = MessageBoxManager.GetMessageBoxStandardWindow(title, message);
+                dialog.Show();
+            });
         }
 
         public GameFieldViewModel(Game game, GameRunner gameRunner, int thisPlayerNumber)
