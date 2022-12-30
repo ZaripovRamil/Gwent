@@ -12,7 +12,8 @@
 			<StackPanel Margin="30">
 				<TextBlock FontFamily="Impact" HorizontalAlignment="Center" Foreground="AliceBlue" FontSize="25">Введите логин</TextBlock>
 				<TextBox Width="200" Text="{Binding Login}"></TextBox>
-				<Button Command="{Binding SendLogin}"
+				<Button IsEnabled="{Binding HasLogged}"
+						Command="{Binding SendLogin}"
 						Foreground="White"
 						FontFamily="Impact"
 						HorizontalContentAlignment="Center"

@@ -99,6 +99,8 @@ namespace GwentClient.ViewModels
 
             PlayerStatus.SumPower = player.Power;
             EnemyStatus.SumPower = enemy.Power;
+            PlayerStatus.Lives = player.Lives;
+            EnemyStatus.Lives = enemy.Lives;
 
             SelectedCard = Hand.Count - 1;
         }
@@ -109,21 +111,11 @@ namespace GwentClient.ViewModels
                 return;
 
             if (roundResult.IsDraw)
-            {
-                PlayerStatus.Lives -= 1;
-                EnemyStatus.Lives -= 1;
                 ShowDialog("Раунд закончен!", $"Раунд закончился ничьей!");
-            }
             else if (roundResult.WinnerName == PlayerName)
-            {
-                EnemyStatus.Lives -= 1;
                 ShowDialog("Раунд закончен!", $"{PlayerName}, вы победили в этом раунде!");
-            }
             else
-            {
-                PlayerStatus.Lives -= 1;
                 ShowDialog("Раунд закончен!", $"{PlayerName}, вы проиграли в этом раунде!");
-            }
         }
 
         public void ShowGameResult(GameResult gameResult)
