@@ -127,7 +127,7 @@ public class Game
         }
         else if (player1.Power < player2.Power)
         {
-            result = new RoundResult(false, player1.Name);
+            result = new RoundResult(false, player2.Name);
             player1.Lives -= 1;
         }
         else
