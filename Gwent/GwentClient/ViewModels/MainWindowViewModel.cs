@@ -36,6 +36,8 @@ namespace GwentClient.ViewModels
         public void UpdateGameField(Game game)
         {
             var gameField = content as GameFieldViewModel;
+            if (gameField == null)
+                return;
             gameField.Update(game);
         }
 

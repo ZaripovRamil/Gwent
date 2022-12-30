@@ -23,14 +23,14 @@ namespace GwentClient.ViewModels
 
         public void SendLogin()
         {
-            HasLogged = false;
-
             if (Login == null || Login.Length < 3 || Login.Length > 8)
             {
                 var dialog = MessageBoxManager.GetMessageBoxStandardWindow("Error!", "The login must be from 3 to 8 characters.");
                 dialog.Show();
                 return;
             }
+
+            HasLogged = false;
 
             MainWindow.Client.GameRunner.AskForGameStart(Login);
         }
