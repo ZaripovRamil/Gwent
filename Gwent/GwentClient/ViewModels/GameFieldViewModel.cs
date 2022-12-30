@@ -118,7 +118,7 @@ namespace GwentClient.ViewModels
             if (gameResult.IsDraw)
                 ShowDialog("The game is over!", "Draw!");
             else
-                ShowDialog("The game is over!", $"{PlayerName} - king of Gwent!");
+                ShowDialog("The game is over!", $"{gameResult.WinnerName} - king of Gwent!");
 
             GameRunner.MainWindow.CreateLogin();
         }
