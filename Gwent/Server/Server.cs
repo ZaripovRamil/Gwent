@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
-using Models.Dtos;
+using Models.Dtos.GameStartResponse;
+using Models.Dtos.MoveResult;
 
 namespace Server;
 
@@ -56,7 +57,7 @@ public class Server
             {
                 return;
             }
-
+            Thread.Sleep(50);
             Socket client;
 
             try
@@ -75,9 +76,10 @@ public class Server
 
     public GameRunner AddClientIntoGame(ConnectedClient client, string name)
     {
+        var game = LastGame;
         NameClientDictionary[name] = client;
-        LastGame.AddClient(name);
-        return LastGame;
+        game.AddClient(name);
+        return game;
     }
 
     public GameRunner LastGame

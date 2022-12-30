@@ -1,16 +1,20 @@
 ﻿using Models.Dtos;
+using Models.Dtos.GameStartResponse;
+using Models.Dtos.MoveResult;
 
 namespace Models;
 
 public class Game
 {
-    public readonly Player[] Players;
+    public Player[] Players { get; set; }
+    public bool[] HasPassed { get; set; }
 
     public Game(string player1Name, string player2Name) //Server creates game here 
     {
-        var player1 = new Player(player1Name, this, 1);
-        var player2 = new Player(player2Name, this, 1);
+        var player1 = new Player(player1Name, this, 0, 0);
+        var player2 = new Player(player2Name, this, 0, 1);
         Players = new[] {player1, player2};
+        HasPassed = new bool[2];
         CurrentlyMoving = player1;
     }
 
@@ -20,15 +24,16 @@ public class Game
         Player player2;
         if (startInfo.ThisPlayerNumber == 0)
         {
-            player1 = new Player(startInfo.Player1Name, this, startInfo.Hand);
-            player2 = new Player(startInfo.Player2Name, this, Array.Empty<int>());
+            player1 = new Player(startInfo.Player1Name, this, startInfo.Hand, 0);
+            player2 = new Player(startInfo.Player2Name, this, Array.Empty<byte>(), 1);
         }
         else
         {
-            player2 = new Player(startInfo.Player2Name, this, startInfo.Hand);
-            player1 = new Player(startInfo.Player1Name, this, Array.Empty<int>());
+            player1 = new Player(startInfo.Player1Name, this, Array.Empty<byte>(), 0);
+            player2 = new Player(startInfo.Player2Name, this, startInfo.Hand, 1);
         }
 
+        HasPassed = new[] {false, false};
         Players = new[] {player1, player2};
         CurrentlyMoving = player1;
     }
@@ -47,24 +52,34 @@ public class Game
 
 
     public Player CurrentlyMoving { get; set; }
-    public bool IsRoundFinished => Players.All(p => p.HasPassed = true);
+    public bool IsRoundFinished => Players.All(p => HasPassed[p.Id]);
     public bool IsGameFinished => Players.Any(player => player.Lives == 0);
 
     public void SetupNextRound()
     {
         foreach (var player in Players)
         {
-            player.HasPassed = false;
+            HasPassed[player.Id] = false;
             player.OwnField = Player.SetupField();
         }
     }
 
     //this is move execution on client
-    public Game ExecuteMove(MoveResult move)
+    public Game ExecuteMove(MoveResult move, int clientPlayerId)
     {
         UpdateDeck(move);
-        ExecuteMove(new PlayerMove(move.PlayerName, move.HasPassed, move.CardPositionInHand, move.Row,
-            move.CardPositionInRow));
+        if (move.PlayerId == clientPlayerId)
+            ExecuteMove(new PlayerMove(move.PlayerId, move.HasPassed, move.CardPositionInHand, move.Row,
+                move.CardPositionInRow));
+        else
+        {
+            if (move.HasPassed)
+                CurrentlyMoving.Pass();
+            else
+                CurrentlyMoving.PlayCard(move.CardIdPlayed);
+            if (!IsRoundFinished) CurrentlyMoving = CalculateNextMovingPlayer();
+        }
+
         return this;
     }
 
@@ -72,18 +87,16 @@ public class Game
     public List<MoveResult> ExecuteMove(PlayerMove move)
     {
         var results = new MoveResult[2];
-        if (CurrentlyMoving.Name != move.PlayerName) return results.ToList();
+        if (CurrentlyMoving != Players[move.PlayerId]) return results.ToList();
         var moveResult = move.HasPassed
             ? CurrentlyMoving.Pass()
             : CurrentlyMoving.PlayCard(move.CardPositionInHand, move.Row, move.CardPositionInRow);
-        if (IsRoundFinished) moveResult.IsLastMoveInRound = true;
-        else CurrentlyMoving = CalculateNextMovingPlayer();
+        if (!IsRoundFinished) CurrentlyMoving = CalculateNextMovingPlayer();
         for (var i = 0; i < Players.Length; i++)
         {
-            if (Players[i].Name != moveResult.PlayerName) continue;
+            if (i != moveResult.PlayerId) continue;
             results[i] = moveResult;
-            moveResult.PulledCards = new List<int>();
-            results[(i + 1) % 2] = moveResult;
+            results[(i + 1) % 2] = new(moveResult.PlayerId,moveResult.HasPassed, moveResult.CardIdPlayed, moveResult.PulledCards);
         }
 
         return results.ToList();
@@ -91,13 +104,14 @@ public class Game
 
     private void UpdateDeck(MoveResult move)
     {
-        Players.First(player => player.Name == move.PlayerName).Deck = new Deck(move.PulledCards, false);
+        Players[move.PlayerId].Deck = new Deck(move.PulledCards, false);
     }
 
     private Player CalculateNextMovingPlayer()
     {
-        if (Players.All(player => player.HasPassed)) throw new Exception("There is no next player in a finished round");
-        var otherPlayer = Players.FirstOrDefault(player => player != CurrentlyMoving && !player.HasPassed);
+        if (Players.All(player => HasPassed[player.Id]))
+            throw new Exception("There is no next player in a finished round");
+        var otherPlayer = Players.FirstOrDefault(player => player != CurrentlyMoving && !HasPassed[player.Id]);
         return otherPlayer ?? CurrentlyMoving;
     }
 
@@ -113,7 +127,7 @@ public class Game
         }
         else if (player1.Power < player2.Power)
         {
-            result = new RoundResult(false, player1.Name);
+            result = new RoundResult(false, player2.Name);
             player1.Lives -= 1;
         }
         else

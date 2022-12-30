@@ -1,4 +1,5 @@
 ﻿using Models.Dtos;
+using Models.Dtos.MoveResult;
 using Models.FeaturesRepo;
 
 namespace Models;
@@ -6,24 +7,25 @@ namespace Models;
 public class Player
 {
     //this constructor for server
-    public Player(string name, Game game, int deckId) : this(name, game)
+    public Player(string name, Game game, int deckId, int id) : this(name, game, id)
     {
         Hand = new List<Card>();
         Deck = new Deck(DecksLibrary.Decks[deckId], true);
-        for (var i = 0; i < 10; i++)
+        for (var i = 0; i < 8; i++)
             PullCard();
     }
 
     //this constructor for client
-    public Player(string name, Game game, int[] hand) : this(name, game)
+    public Player(string name, Game game, byte[] hand, int id) : this(name, game, id)
     {
         Hand = hand.Select(CardLibrary.GetCard).ToList();
     }
 
     //basic constructor
-    private Player(string name, Game game)
+    private Player(string name, Game game, int id)
     {
         GameField = game;
+        Id = id;
         Name = name;
         Lives = 2;
         OwnField = SetupField();
@@ -35,13 +37,12 @@ public class Player
     {
         get { return OwnField.Sum(row => row.Power); }
     }
-
-    public bool HasPassed { get; set; }
     public Game GameField { get; set; }
     public List<Row> OwnField { get; set; }
     public string Name { get; set; }
     public List<Card> Hand { get; set; }
     public Deck Deck { get; set; }
+    public int Id { get; }
 
     public MoveResult PlayCard(int positionInHand, int rowIndex, int positionInRow)
     {
@@ -49,19 +50,28 @@ public class Player
         var card = Hand[positionInHand];
         if (rowIndex != (int) card.Role) throw new ArgumentException("Wrong row");
         var rowCards = OwnField[rowIndex].Cards;
-        if (positionInRow > rowCards.Count || positionInRow < 0)
-            throw new IndexOutOfRangeException("Wrong position in a row");
-        var result = new MoveResult(this, positionInHand, rowIndex, positionInRow);
-        rowCards.Insert(positionInRow, card);
+        var result = new MoveResult(this, positionInHand, rowIndex, positionInRow, card.Id);
+        Hand.Remove(card);
+        rowCards.Add(card);
         if (card.OwnImpact.TriggerType == TriggerType.OnPlay)
             card.OwnImpact.Impact(GameField, this, result);
         return result;
+    }
+    
+    public void PlayCard(byte cardIdPlayed)
+    {
+        var result = new MoveResult(Id,false, cardIdPlayed, new List<byte>());
+        var card = CardLibrary.GetCard(cardIdPlayed);
+        var rowIndex = (int)card.Role;
+        OwnField[rowIndex].Cards.Add(card);
+        if (card.OwnImpact.TriggerType == TriggerType.OnPlay)
+            card.OwnImpact.Impact(GameField, this, result);
     }
 
     public MoveResult Pass()
     {
         var result = new MoveResult(this, true);
-        HasPassed = true;
+        GameField.HasPassed[Id] = true;
         return result;
     }
 

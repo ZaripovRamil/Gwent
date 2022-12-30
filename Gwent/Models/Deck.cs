@@ -4,7 +4,7 @@ namespace Models;
 
 public class Deck
 {
-    public Deck(IEnumerable<int> cardsInput, bool shuffle)
+    public Deck(IEnumerable<byte> cardsInput, bool shuffle)
     {
         var cards = cardsInput.ToArray();
         if (!shuffle)

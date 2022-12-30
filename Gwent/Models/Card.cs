@@ -2,7 +2,7 @@
 
 public class Card
 {
-    public Card(int id, Role role, int basePower, GameImpact ownImpact)
+    public Card(byte id, Role role, int basePower, GameImpact ownImpact)
     {
         Id = id;
         Role = role;
@@ -10,9 +10,9 @@ public class Card
         OwnImpact = ownImpact;
     }
 
-    public int Id { get; }
+    public byte Id { get; }
     public Role Role { get; }
-    private int BasePower { get; }
+    public int BasePower { get; }
 
     public GameImpact OwnImpact { get; }
     public List<PowerImpact> ForeignImpacts { get; } = new();

@@ -31,7 +31,6 @@ public class GameRunner
         }
         else throw new Exception("Can't add client into a filled lobby");
     }
-
     private void StartGame()
     {
         if (Game is null || Player1Name is null || Player2Name is null)
@@ -44,6 +43,8 @@ public class GameRunner
             if (MovesQueue.Count != 0)
             {
                 var moveResults = Game.ExecuteMove(MovesQueue.Dequeue());
+                if (Game.IsRoundFinished)
+                    Game.CalculateRoundResult();
                 Server.SendMoveResult(Player1Name, moveResults[0]);
                 Server.SendMoveResult(Player2Name, moveResults[1]);
             }

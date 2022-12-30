@@ -1,4 +1,5 @@
 ﻿using Models.Dtos;
+using Models.Dtos.MoveResult;
 
 namespace Models.FeaturesRepo;
 
@@ -6,9 +7,7 @@ public static class GameImpactLibrary
 {
     private static readonly List<Action<Game, Player, MoveResult>> Actions = new()
     {
-        (_, _, _) =>
-        {
-        },
+        (_, _, _) => {},
         
         (_, player, moveResult) => player.PullCard(moveResult),
         
